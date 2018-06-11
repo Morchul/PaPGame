@@ -5,4 +5,5 @@ include 'PaPServer:core'
 include 'PaPClient:desktop'
 include 'PaPClient:core'
 include 'PaPModel'
+include 'PaPCreator'
 
