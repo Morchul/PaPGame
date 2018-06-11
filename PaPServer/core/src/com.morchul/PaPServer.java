@@ -8,7 +8,9 @@ import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
 import com.morchul.connection.Client;
 import com.morchul.connection.SimpleClient;
-import com.morchul.database.MongodbConnection;
+import com.morchul.database.MongoDB;
+import com.morchul.database.ReducedDatabase;
+import com.morchul.database.Database;
 import com.morchul.settings.Settings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,13 +21,18 @@ public class PaPServer extends ApplicationAdapter {
 
     private boolean stopped = false;
     public static Logger log = LoggerFactory.getLogger(PaPServer.class);
-    public static MongodbConnection database;
+    public static Database database;
     private int ClientID = 100;
 
     @Override
     public void create () {
+        switch (Settings.getDatabase()){
+            case "mongoDB": database = new MongoDB(); break;
+            case "none": database = new ReducedDatabase(); break;
+            default: database = new ReducedDatabase(); break;
+        }
 
-        database = new MongodbConnection();
+        log.info("Server use Database: " + database.getClass().getSimpleName());
         log.info("Starting Server...");
         //new GameManager();
         new Thread(new Runnable() {

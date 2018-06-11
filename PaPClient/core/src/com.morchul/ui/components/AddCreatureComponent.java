@@ -4,8 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.morchul.PaPHelper;
-import com.morchul.card.Card;
-import com.morchul.collection.item.CollectionItem;
 import com.morchul.connections.StaticServerInterface;
 import com.morchul.connections.message.MessageModelCreator;
 import com.morchul.model.models.Creatures;
@@ -22,7 +20,7 @@ public class AddCreatureComponent implements DropTarget {
     private Table table;
     private Logger log = LoggerFactory.getLogger(PaPHelper.class);
 
-    public AddCrScrollPaneeatureComponent(Skin skin) {
+    public AddCreatureComponent(Skin skin) {
         table = new Table(skin);
         table.setTouchable(Touchable.enabled);
 

@@ -8,6 +8,9 @@ public class Settings {
     private static final String PORT = "port";
     private static final int DEFAULT_PORT = 8267;
 
+    private static final String DATABASE = "database";
+    private static final String DEFAULT_DATABASE = "mongoDB";
+
     private static final String DATABASE_PORT = "databasePort";
     private static final int DEFAULT_DATABASE_PORT = 27017;
 
@@ -21,6 +24,8 @@ public class Settings {
     private static final String DEFAULT_COLLECTION_NAME = "player";
 
     private static Preferences setting = Gdx.app.getPreferences("serverSettings");
+
+    public static String getDatabase(){return setting.getString(DATABASE, DEFAULT_DATABASE);}
 
     public static int getPort(){
         return setting.getInteger(PORT, DEFAULT_PORT);

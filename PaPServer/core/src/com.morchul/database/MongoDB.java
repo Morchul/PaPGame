@@ -12,21 +12,22 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Iterator;
 
-public class MongodbConnection {
+public class MongoDB implements Database {
 
-  private Logger log = LoggerFactory.getLogger(MongodbConnection.class);
+  private Logger log = LoggerFactory.getLogger(MongoDB.class);
 
 
   private MongoClient mongo;
   private MongoDatabase database;
   private MongoCollection<Document> collection;
 
-  public MongodbConnection() {
+  public MongoDB() {
     log.info("Open MongoDB Connection on: " + Settings.getDatabaseHost() + ":" + Settings.getDatabasePort());
     mongo = new MongoClient(Settings.getDatabaseHost(), Settings.getDatabasePort());
     database = mongo.getDatabase(Settings.getDatabaseName());
   }
 
+  @Override
   public void logout(String username){
     updateLoginStatus(false, username);
   }
@@ -40,6 +41,7 @@ public class MongodbConnection {
     collection.updateOne(searchQuery, newDocument);
   }
 
+  @Override
   public boolean login(String username, String password){
     log.info("Try to Login with USERNAME: " + username + " and PASSWORD: " + password);
     collection = database.getCollection(Settings.getCollectionName());
