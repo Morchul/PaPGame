@@ -1,0 +1,37 @@
+project(":PaPClient:desktop") {
+    apply plugin: "java"
+
+    dependencies {
+        compile project(":PaPClient:core")
+        compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+        compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+        compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+
+    }
+}
+
+project(":PaPClient:core") {
+    apply plugin: "java"
+
+    sourceSets.test.java.srcDirs = ["/test"]
+
+    dependencies {
+        compile project(":PaPModel")
+        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+        compile group: 'org.json', name: 'json', version: '20180130'
+        compile "org.slf4j:slf4j-api:$slf4j_api"
+
+        testCompile "junit:junit:4.12"
+
+        runtime "org.slf4j:slf4j-log4j12:$slf4j_api"
+
+    }
+}
+
+tasks.eclipse.doLast {
+    delete ".project"
+}
