@@ -15,8 +15,9 @@ public class StaticUIValues {
 
 
     public static final int TOP_BAR_HEIGHT = 75;
-    public static final int LEFT_BAR_WIDTH = 200;
-    public static final int RIGHT_CREATURE_VIEW_WIDTH = 200;
+    public static final int LEFT_BAR_WIDTH = 160;
+    public static final int RIGHT_CREATURE_VIEW_WIDTH = 160;
+    public static final int RIGHT_STATUS_VIEW_WIDTH = 150;
     public static final int BOTTOM_SKILL_BAR_HEIGHT = 150;
 
     public static final int CARD_WIDTH = 150;

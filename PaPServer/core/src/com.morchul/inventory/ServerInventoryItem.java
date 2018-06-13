@@ -20,6 +20,11 @@ public class ServerInventoryItem implements InventoryItem {
         return --count == 0;
     }
 
+    @Override
+    public void remove() {
+        count = 0;
+    }
+
     public int getCount(){
         return count;
     }

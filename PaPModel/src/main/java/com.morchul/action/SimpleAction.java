@@ -1,7 +1,7 @@
 package com.morchul.action;
 
 import com.morchul.model.abstractmodels.Anything;
-import com.morchul.model.models.Creatures;
+import com.morchul.model.abstractmodels.Creatures;
 
 public class SimpleAction implements Action{
 
@@ -15,7 +15,7 @@ public class SimpleAction implements Action{
 
     @Override
     public void action(Anything source, Creatures target) {
-        executor.exec(action);
+        executor.exec(action, source, target);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class SimpleAction implements Action{
         for(String s : commands){
             reverseAction.append(changeFirstOperator(s)).append(";");
         }
-        executor.exec(reverseAction.toString());
+        executor.exec(reverseAction.toString(), source, target);
 
     }
 

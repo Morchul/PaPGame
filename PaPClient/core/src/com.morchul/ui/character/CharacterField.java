@@ -13,7 +13,7 @@ import com.morchul.model.ChangeListener;
 import com.morchul.model.Type;
 import com.morchul.model.abstractmodels.Anything;
 import com.morchul.model.abstractmodels.Wearable;
-import com.morchul.model.models.Creatures;
+import com.morchul.model.abstractmodels.Creatures;
 import com.morchul.ui.dragdrop.interfaces.DragSource;
 import com.morchul.ui.dragdrop.interfaces.DropTarget;
 import com.morchul.ui.dragdrop.interfaces.MainDragAndDropAdmin;
@@ -55,9 +55,10 @@ public class CharacterField implements DropTarget, DragSource {
     }
 
     public void pullOff(){
-        if(item != null){
+        if(item != null) {
             item.getPullOnAction().reverseAction(item, creature);
             item = null;
+            Gdx.app.postRunnable(() -> image.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("EmptyCharacterField.jpg"))))));
         }
     }
 

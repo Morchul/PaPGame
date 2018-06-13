@@ -9,6 +9,7 @@ public class DesktopLauncher {
     public static void main (String[] arg) {
         PropertyConfigurator.configure("log4j.properties");
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        config.width = 800;
         new LwjglApplication(new PaPHelper(), config);
     }
 }

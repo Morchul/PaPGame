@@ -1,9 +1,11 @@
 package com.morchul.collection;
 
 import com.morchul.action.SimpleAction;
+import com.morchul.model.ClientCreatures;
 import com.morchul.model.Type;
 import com.morchul.model.Value;
 import com.morchul.model.abstractmodels.Anything;
+import com.morchul.model.abstractmodels.Creatures;
 import com.morchul.model.models.*;
 import com.morchul.model.models.Object;
 import org.json.JSONObject;
@@ -116,7 +118,7 @@ public class FileToModelConverter {
     }
 
     private static Creatures toCreature(JSONObject json, String imagePath){
-        return new Creatures(
+        return new ClientCreatures(
                 json.getString(ANYTHING_NAME_KEY),
                 json.getString(ANYTHING_UUID_KEY),
                 "",

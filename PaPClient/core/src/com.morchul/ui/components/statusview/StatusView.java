@@ -1,10 +1,10 @@
 package com.morchul.ui.components.statusview;
 
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import com.morchul.model.models.Creatures;
+import com.morchul.model.abstractmodels.Creatures;
 import com.morchul.model.models.Status;
 import javafx.collections.ListChangeListener;
 
@@ -14,6 +14,7 @@ import static com.morchul.ui.StaticUIValues.STATUS_WIDTH;
 public class StatusView {
 
     private VerticalGroup group;
+    private ScrollPane scrollPane;
     private boolean visible = false;
     private Creatures creature;
     private Skin skin;
@@ -28,22 +29,22 @@ public class StatusView {
         group.setHeight(STATUS_HEIGHT);
         update();
         creatures.getStatus().addListener((ListChangeListener<Status>) c -> update());
+        scrollPane = new ScrollPane(group);
     }
 
     private void update(){
-        Gdx.app.postRunnable(()-> {
+            group.clear();
             for (Status s : creature.getStatus()) {
-                group.addActor(new StatusViewItem(skin, s).getTable());
+                group.addActor(new StatusViewItem(skin, s).getGroup());
             }
-        });
     }
 
     public Creatures getCreature() {
         return creature;
     }
 
-    public VerticalGroup getGroup() {
-        return group;
+    public ScrollPane getGroup() {
+        return scrollPane;
     }
 
     public void show(){

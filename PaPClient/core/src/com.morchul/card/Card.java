@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.morchul.model.ChangeListener;
 import com.morchul.model.abstractmodels.Anything;
-import com.morchul.model.models.Creatures;
+import com.morchul.model.abstractmodels.Creatures;
 import com.morchul.ui.dragdrop.interfaces.DragSource;
 import com.morchul.ui.dragdrop.interfaces.DropTarget;
 import com.morchul.ui.dragdrop.interfaces.MainDragAndDropAdmin;

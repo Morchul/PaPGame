@@ -29,7 +29,6 @@ public class MainDragAndDropAdmin implements MainDragAndDrop {
       dragAndDrop.addSource(new DragAndDrop.Source(item) {
         @Override
         public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
-          System.out.println("DRAG: " + x + "/" + y);
           DragAndDropPositionHelper.setDragPosition(new Vector2(event.getStageX(), event.getStageY()));
           DragAndDrop.Payload payload = new DragAndDrop.Payload();
           payload.setObject(object);

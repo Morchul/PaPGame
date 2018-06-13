@@ -15,6 +15,7 @@ import com.morchul.ui.components.InfoView;
 import com.morchul.ui.components.MainTable;
 import com.morchul.ui.components.AddCreatureComponent;
 import com.morchul.ui.components.creatureview.CreatureView;
+import com.morchul.ui.components.inspectionview.InspectionView;
 import com.morchul.ui.components.menubar.MenuBar;
 
 import static com.morchul.ui.StaticUIValues.*;
@@ -32,6 +33,7 @@ public class GameMasterScreen implements CustomScreen {
     private InfoView infoView;
     private AllTableComponent allTableComponent;
     private AddCreatureComponent addCreatureComponent;
+    private InspectionView inspectionView;
 
     private GameMasterScreen() {
         stage = new Stage(new ScreenViewport());
@@ -49,6 +51,7 @@ public class GameMasterScreen implements CustomScreen {
         creatorView = new CreatorView(skin, Self.collections);
         menuBar = new MenuBar(skin);
         infoView = new InfoView(skin);
+        inspectionView = new InspectionView(skin);
         allTableComponent = new AllTableComponent(skin);
         addCreatureComponent = new AddCreatureComponent(skin);
 
@@ -74,7 +77,7 @@ public class GameMasterScreen implements CustomScreen {
         table.add(mainTable).grow().colspan(1);
         table.add(scrollPane).expandY().top();
         table.row().height(BOTTOM_SKILL_BAR_HEIGHT);
-        table.add();
+        table.add(inspectionView.getTable()).colspan(3).growX();
 
     }
 

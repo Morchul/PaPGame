@@ -31,8 +31,6 @@ public class InventoryViewItem {
             if(item.getItem().isStackable())
                 container.add(countLabel);
             container.add(image).width(INVENTORY_IMAGE_SIZE);
-            System.out.println(image.getWidth());
-            System.out.println(image.getHeight());
         });
         item.addListener(count -> countLabel.setText(count+""));
 

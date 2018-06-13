@@ -8,6 +8,7 @@ import com.morchul.model.SimpleValue;
 import com.morchul.model.Type;
 import com.morchul.model.Value;
 import com.morchul.model.abstractmodels.Anything;
+import com.morchul.model.abstractmodels.Creatures;
 import com.morchul.model.abstractmodels.Objects;
 import com.morchul.model.models.*;
 import com.morchul.model.models.Object;
@@ -195,7 +196,7 @@ public class SimpleJSONConverter implements JSONConverter {
 
     @Override
     public Creatures toCreature(JSONObject json){
-        Creatures c = new Creatures(
+        Creatures c = new SimpleCreatures(
                 json.getString(ANYTHING_NAME_KEY),
                 json.getString(ANYTHING_UUID_KEY),
                 json.getString(ANYTHING_GAME_UUID_KEY),

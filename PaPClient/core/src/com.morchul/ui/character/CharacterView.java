@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.morchul.model.Type;
-import com.morchul.model.models.Creatures;
+import com.morchul.model.abstractmodels.Creatures;
 
 import static com.morchul.ui.StaticUIValues.CHARACTER_FIELD_SIZE;
 import static com.morchul.ui.StaticUIValues.CHARACTER_VIEW_HEIGHT;

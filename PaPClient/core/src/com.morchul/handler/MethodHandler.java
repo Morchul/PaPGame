@@ -7,7 +7,7 @@ import com.morchul.connections.message.MessageModelCreator;
 import com.morchul.inventory.ClientInventoryItem;
 import com.morchul.message.MessageModel;
 import com.morchul.model.abstractmodels.Objects;
-import com.morchul.model.models.Creatures;
+import com.morchul.model.abstractmodels.Creatures;
 import com.morchul.model.models.Skill;
 import com.morchul.model.models.Status;
 import com.morchul.Self;
@@ -50,9 +50,43 @@ public class MethodHandler {
           case NEXT_ROUND: nextRoundEvent(); break;
           case ADD_SKILL: addSkillEvent(message); break;
           case ADD_STATUS: addStatusEvent(message); break;
+          case REMOVE_ITEM: removeItemEvent(message); break;
+          case REMOVE_STATUS: removeStatusEvent(message); break;
+          case REMOVE_SKILL: removeSkillEvent(message); break;
+          case CREATURE_VALUE_CHANGE: creatureValueChangeEvent(message); break;
           default: log.error("NOT IMPLEMENTED: " + message.type); break;
       }
   }
+
+  private void creatureValueChangeEvent(MessageModel message){
+      Creatures who = Self.game.getCreatureByGameUUID((String)message.param.get(2));
+      who.setValue((String)message.param.get(1), (int)message.param.get(0));
+  }
+
+    private void removeStatusEvent(MessageModel message){
+        Creatures who = Self.game.getCreatureByGameUUID((String)message.param.get(1));
+        if(who != null) {
+            Status s = who.getStatusByGameUUID((String) message.param.get(0));
+            if (s != null)
+                who.removeStatus(s);
+        }
+    }
+
+    private void removeSkillEvent(MessageModel message){
+        Creatures who = Self.game.getCreatureByGameUUID((String)message.param.get(1));
+        if(who != null){
+            Skill s = who.getSkillByGameUUID((String)message.param.get(0));
+            if(s != null)
+                who.removeSkill(s);
+        }
+    }
+
+    private void removeItemEvent(MessageModel message){
+      Creatures who = Self.game.getCreatureByGameUUID((String)message.param.get(1));
+      ClientInventoryItem item = new ClientInventoryItem(simpleStaticConverter.toObjects((JSONObject)message.param.get(0)));
+      if(who != null)
+        who.getInventory().removeItemTotalFromInventory(item);
+    }
 
     private void addStatusEvent(MessageModel message){
         Creatures to = Self.game.getCreatureByGameUUID((String)message.param.get(1));
@@ -74,8 +108,8 @@ public class MethodHandler {
 
   private void newCreatureEvent(MessageModel message){
       Creatures c = simpleStaticConverter.toCreature(new JSONObject(message.message));
-      Self.game.addNPC(c);
       log.info("Add Creature: " + c.getGameUUID());
+      Self.game.addNPC(c);
   }
 
   private void allTableEvent(MessageModel message){

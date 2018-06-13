@@ -58,13 +58,9 @@ public class GameScreen implements CustomScreen {
         skillBar = new SkillBar(skin, Self.user.getCharacter());
         infoView = new InfoView(skin);
         allTableComponent = new AllTableComponent(skin);
-
         statusView = new StatusView(skin, Self.user.getCharacter());
-        stage.addActor(statusView.getGroup());
 
         characterView = new CharacterView(skin, Self.user.getCharacter());
-        Vector2 pos = StaticUIValues.getStageLocation(mainTable);
-        characterView.getTable().setPosition(pos.x, pos.y);
         stage.addActor(characterView.getTable());
 
         menuBar.addLeafMenu();
@@ -77,18 +73,22 @@ public class GameScreen implements CustomScreen {
         Table container = new Table();
         container.add(allTableComponent.getField()).width(ALL_TABLE_COMPONENT_WIDTH).height(ALL_TABLE_COMPONENT_HEIGHT);
         container.row();
-        container.add(creatureView.getGroup()).width(CREATURE_COMPONENT_WIDTH).height(CREATURE_COMPONENT_HEIGHT).top();
+        container.add(creatureView.getGroup()).width(CREATURE_COMPONENT_WIDTH).top();
         ScrollPane scrollPane = new ScrollPane(container);
 
         table.row().height(TOP_BAR_HEIGHT);
         table.add(menuBar.getMenuBar()).left();
-        table.add(infoView.getInfoList()).growX().colspan(2);
+        table.add(infoView.getInfoList()).growX().colspan(3);
         table.row();
         table.add(inventoryView.getInventoryList()).width(LEFT_BAR_WIDTH).top().fill().expandY();
         table.add(mainTable).grow().colspan(1);
-        table.add(scrollPane).expandY().top();
+        table.add(statusView.getGroup()).expandY().top().width(RIGHT_STATUS_VIEW_WIDTH);
+        table.add(scrollPane).expandY().top().width(RIGHT_CREATURE_VIEW_WIDTH);
         table.row().height(BOTTOM_SKILL_BAR_HEIGHT);
-        table.add(skillBar.getSkillBar()).colspan(3).fillX();
+        table.add(skillBar.getSkillBar()).colspan(4).fillX();
+
+        Vector2 pos = StaticUIValues.getStageLocation(mainTable);
+        characterView.getTable().setPosition(LEFT_BAR_WIDTH, BOTTOM_SKILL_BAR_HEIGHT);
     }
 
     public static GameScreen getInstance(){

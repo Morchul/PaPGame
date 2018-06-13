@@ -3,10 +3,10 @@ package com.morchul;
 import com.badlogic.gdx.Gdx;
 import com.morchul.collection.Collections;
 import com.morchul.connections.StaticServerInterface;
-import com.morchul.connections.message.MessageModelCreator;
 import com.morchul.game.Game;
+import com.morchul.model.ClientCreatures;
 import com.morchul.model.Type;
-import com.morchul.model.models.Creatures;
+import com.morchul.model.abstractmodels.Creatures;
 import com.morchul.model.player.User;
 import com.morchul.settings.Settings;
 import com.morchul.ui.ScreenLoader;
@@ -27,8 +27,8 @@ public class Self {
 
     static {
         //DEBUG Constructor TODO remove
-        characters.add(new Creatures("Archer", "uuidPlayer1","","","Description", "", new Type(Type.PLAYER), 50,50,10,20,5,5,5,5,false));
-        characters.add(new Creatures("Warrior", "uuidPlayer2","","","Description", "", new Type(Type.PLAYER), 60,60,10,10,4,1,6,5,false));
+        characters.add(new ClientCreatures("Archer", "uuidPlayer1","","","Description", "", new Type(Type.PLAYER), 50,50,10,20,5,5,5,5,false));
+        characters.add(new ClientCreatures("Warrior", "uuidPlayer2","","","Description", "", new Type(Type.PLAYER), 60,60,10,10,4,1,6,5,false));
     }
 
     public static Creatures getCharacter(String s){

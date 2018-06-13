@@ -5,6 +5,7 @@ import com.morchul.inventory.ServerInventoryItem;
 import com.morchul.model.Type;
 import com.morchul.model.Value;
 import com.morchul.model.abstractmodels.Anything;
+import com.morchul.model.abstractmodels.Creatures;
 import com.morchul.model.models.*;
 import com.morchul.model.models.Object;
 import org.json.JSONArray;

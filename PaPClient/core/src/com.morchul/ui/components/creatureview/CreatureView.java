@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.morchul.Self;
 import com.morchul.game.Game;
-import com.morchul.model.models.Creatures;
+import com.morchul.model.abstractmodels.Creatures;
 import com.morchul.model.player.User;
 import javafx.collections.ListChangeListener;
 
@@ -24,7 +24,6 @@ public class CreatureView  {
     }
 
     private void update(){
-        System.out.println("UPDATE");
         group.clear();
         for(User u: game.getPlayers()){
             if(!Self.game.isGameMaster(u))

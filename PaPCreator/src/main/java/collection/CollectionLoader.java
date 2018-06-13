@@ -17,10 +17,6 @@ import static helper.JSONConverter.toModel;
 
 public class CollectionLoader {
 
-    public CollectionLoader() {
-        //TODO Standard Constructor
-    }
-
     public CustomTreeView load(MainScene parent){
         DirectoryChooser fileChooser = new DirectoryChooser();
         fileChooser.setTitle("Choose Collection");

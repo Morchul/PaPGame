@@ -9,7 +9,7 @@ import com.morchul.inventory.ClientInventoryItem;
 import com.morchul.model.Type;
 import com.morchul.model.abstractmodels.Anything;
 import com.morchul.model.abstractmodels.Objects;
-import com.morchul.model.models.Creatures;
+import com.morchul.model.abstractmodels.Creatures;
 import com.morchul.model.models.Skill;
 import com.morchul.model.models.Status;
 import com.morchul.ui.dragdrop.interfaces.DropTarget;

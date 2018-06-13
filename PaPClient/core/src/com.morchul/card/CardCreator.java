@@ -1,7 +1,7 @@
 package com.morchul.card;
 
 import com.morchul.model.abstractmodels.Anything;
-import com.morchul.model.models.Creatures;
+import com.morchul.model.abstractmodels.Creatures;
 
 public class CardCreator {
 

@@ -1,6 +1,6 @@
 package com.morchul.model.player;
 
-import com.morchul.model.models.Creatures;
+import com.morchul.model.abstractmodels.Creatures;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

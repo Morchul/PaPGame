@@ -1,11 +1,8 @@
 package com.morchul.game;
 
 import com.morchul.PaPHelper;
-import com.morchul.model.models.Creatures;
-import com.morchul.model.models.Status;
 import com.morchul.model.player.User;
 import com.morchul.ui.ScreenLoader;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

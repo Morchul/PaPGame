@@ -11,9 +11,10 @@ import com.morchul.connections.message.MessageModelCreator;
 import com.morchul.handler.CardUtils;
 import com.morchul.model.abstractmodels.Anything;
 import com.morchul.model.abstractmodels.Objects;
-import com.morchul.model.models.Creatures;
+import com.morchul.model.abstractmodels.Creatures;
 import com.morchul.model.models.Skill;
 import com.morchul.model.models.Status;
+import com.morchul.ui.components.inspectionview.InspectionViewInventoryItem;
 import com.morchul.ui.dragdrop.interfaces.DragSource;
 import com.morchul.ui.dragdrop.interfaces.DropTarget;
 import com.morchul.ui.dragdrop.interfaces.MainDragAndDropAdmin;
@@ -65,12 +66,15 @@ public class CreatureElement implements DropTarget, DragSource {
             if(Self.user.getCharacter().getUUID().equals(getCreature().getUUID())) {
                 return;
             }
-
             if(object.getItem() instanceof Objects) {
-                StaticServerInterface.sendMessage(MessageModelCreator.createMoveItemToCreatureMessage((Objects) object.getItem(), Self.user.getCharacter(), getCreature()));
-            } else if(object.getItem() instanceof Status){
+                if(object instanceof InspectionViewInventoryItem){
+                    StaticServerInterface.sendMessage(MessageModelCreator.createMoveItemToCreatureMessage((Objects) object.getItem(), ((InspectionViewInventoryItem) object).getCreatures(), getCreature()));
+                } else {
+                    StaticServerInterface.sendMessage(MessageModelCreator.createMoveItemToCreatureMessage((Objects) object.getItem(), Self.user.getCharacter(), getCreature()));
+                }
+            } else if(object.getItem() instanceof Status && Self.game.IamTheGameMaster()){
                 StaticServerInterface.sendMessage(MessageModelCreator.createAddStatusMessage((Status) object.getItem(), getCreature()));
-            } else if(object.getItem() instanceof Skill){
+            } else if(object.getItem() instanceof Skill && Self.game.IamTheGameMaster()){
                 StaticServerInterface.sendMessage(MessageModelCreator.createAddSkillMessage((Skill) object.getItem(), getCreature()));
             } else {
                 log.info("can't move Item which is not instance of Objects, Status, Skill");

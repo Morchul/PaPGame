@@ -4,6 +4,7 @@ import com.morchul.action.Action;
 import com.morchul.model.DurationListener;
 import com.morchul.model.Type;
 import com.morchul.model.abstractmodels.Anything;
+import com.morchul.model.abstractmodels.Creatures;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +28,9 @@ public class Status extends Anything {
 
     public boolean action(Creatures target){
         action.action(this,target);
+        --duration;
         for(DurationListener l: listener){
-            l.valueChanged(--duration);
+            l.valueChanged(duration);
         }
         return duration != 0;
     }

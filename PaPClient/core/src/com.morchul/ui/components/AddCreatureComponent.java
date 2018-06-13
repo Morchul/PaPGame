@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.morchul.PaPHelper;
 import com.morchul.connections.StaticServerInterface;
 import com.morchul.connections.message.MessageModelCreator;
-import com.morchul.model.models.Creatures;
+import com.morchul.model.abstractmodels.Creatures;
 import com.morchul.ui.dragdrop.interfaces.DragSource;
 import com.morchul.ui.dragdrop.interfaces.DropTarget;
 import com.morchul.ui.dragdrop.interfaces.MainDragAndDropAdmin;
@@ -32,14 +32,14 @@ public class AddCreatureComponent implements DropTarget {
     @Override
     public void dropAction(DropActionType type, DragSource object) {
         if(type != DropActionType.NONE) {
-            if (object.getItem() instanceof Creatures) {
+            if ((object.getItem()) instanceof Creatures) {
                 if (type == DropActionType.MOVE_NEW)
                     object.getItem().setGameUUID(UUID.randomUUID().toString());
 
                 StaticServerInterface.sendMessage(MessageModelCreator.createAddCreatureMessage((Creatures) object.getItem()));
                 object.getItem().destroyCard();
             } else {
-                log.info("Object is not instance of Creatures " + object.getClass().getSimpleName());
+                log.info("Object is not instance of Creatures " + object.getItem().getClass().getSimpleName());
             }
         }
     }

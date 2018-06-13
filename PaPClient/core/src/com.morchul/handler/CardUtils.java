@@ -3,7 +3,7 @@ package com.morchul.handler;
 import com.morchul.card.Card;
 import com.morchul.card.CardCreator;
 import com.morchul.model.abstractmodels.Anything;
-import com.morchul.model.models.Creatures;
+import com.morchul.model.abstractmodels.Creatures;
 
 public class CardUtils {
 

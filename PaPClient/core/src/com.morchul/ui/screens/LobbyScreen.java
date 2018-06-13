@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.morchul.connections.StaticServerInterface;
 import com.morchul.connections.message.MessageModelCreator;
 import com.morchul.game.Game;
-import com.morchul.model.models.Creatures;
+import com.morchul.model.abstractmodels.Creatures;
 import com.morchul.model.player.GameMaster;
 import com.morchul.Self;
 import com.morchul.model.player.User;

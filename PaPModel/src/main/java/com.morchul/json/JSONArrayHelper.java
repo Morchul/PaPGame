@@ -1,7 +1,7 @@
 package com.morchul.json;
 
 import com.morchul.model.abstractmodels.Anything;
-import com.morchul.model.models.Creatures;
+import com.morchul.model.abstractmodels.Creatures;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

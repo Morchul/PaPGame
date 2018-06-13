@@ -11,7 +11,7 @@ public class MenuBarItem {
 
     public MenuBarItem(String text, Skin skin) {
         button = new TextButton(text, skin);
-        //button.setWidth(50); TODO
+        //button.setWidth(50);
         //button.setHeight(50);
     }
 

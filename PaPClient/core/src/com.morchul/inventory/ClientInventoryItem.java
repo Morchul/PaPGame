@@ -35,6 +35,11 @@ public class ClientInventoryItem implements InventoryItem, DragSource {
         return count == 0;
     }
 
+    public void remove(){
+        count = 0;
+        countChangedEvent(count);
+    }
+
     public int getCount(){
         return count;
     }

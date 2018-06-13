@@ -1,10 +1,11 @@
 package com.morchul.connections.message;
 
 import com.morchul.PaPHelper;
+import com.morchul.inventory.InventoryItem;
 import com.morchul.message.MessageModel;
 import com.morchul.model.abstractmodels.Anything;
 import com.morchul.model.abstractmodels.Objects;
-import com.morchul.model.models.Creatures;
+import com.morchul.model.abstractmodels.Creatures;
 import com.morchul.model.models.Skill;
 import com.morchul.model.models.Status;
 import org.slf4j.Logger;
@@ -108,5 +109,34 @@ public class MessageModelCreator {
         param.add(simpleStaticConverter.toJSON(s));
         param.add(to.getGameUUID());
         return new MessageModel(MessageModel.MessageType.ADD_SKILL,"", param);
+    }
+
+    public static MessageModel createRemoveItemTotalFromInventory(InventoryItem item, Creatures who){
+        List<Object> param = new ArrayList<>();
+        param.add(simpleStaticConverter.toJSON(item.getItem()));
+        param.add(who.getGameUUID());
+        return new MessageModel(MessageModel.MessageType.REMOVE_ITEM,"", param);
+    }
+
+    public static MessageModel createRemoveStatus(Status s, Creatures who){
+        List<Object> param = new ArrayList<>();
+        param.add(s.getGameUUID());
+        param.add(who.getGameUUID());
+        return new MessageModel(MessageModel.MessageType.REMOVE_STATUS,"", param);
+    }
+
+    public static MessageModel createRemoveSkill(Skill s, Creatures who){
+        List<Object> param = new ArrayList<>();
+        param.add(s.getGameUUID());
+        param.add(who.getGameUUID());
+        return new MessageModel(MessageModel.MessageType.REMOVE_SKILL,"", param);
+    }
+
+    public static MessageModel createValueChangedMessage(int value, Creatures who, String valueName){
+        List<Object> param = new ArrayList<>();
+        param.add(value);
+        param.add(valueName);
+        param.add(who.getGameUUID());
+        return new MessageModel(MessageModel.MessageType.CREATURE_VALUE_CHANGE,"", param);
     }
 }

@@ -1,12 +1,15 @@
 package com.morchul.game;
 
-import com.morchul.model.models.Creatures;
+import com.morchul.model.abstractmodels.Creatures;
 import com.morchul.model.models.Status;
 import com.morchul.model.player.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class SimpleGame implements Game {
 
@@ -119,19 +122,30 @@ public abstract class SimpleGame implements Game {
 
     public synchronized void nextRound(){
         for(User u : player){
+            List<Status> toRemove = new ArrayList<>();
             for(Status s: u.getCharacter().getStatus()){
                 if(!s.action(u.getCharacter())){
-                    u.getCharacter().removeStatus(s);
+                    toRemove.add(s);
                 }
             }
+            remove(u.getCharacter(), toRemove);
         }
         for(Creatures c: npc){
+            List<Status> toRemove = new ArrayList<>();
             for(Status s : c.getStatus()){
                 if(!s.action(c)){
-                    c.removeStatus(s);
+                    toRemove.add(s);
                 }
             }
+            remove(c, toRemove);
         }
+    }
+
+    private void remove(Creatures c, List<Status> s){
+        for(Status status: s){
+            c.removeStatus(status);
+        }
+
     }
 
     @Override

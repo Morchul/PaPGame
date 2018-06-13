@@ -8,6 +8,7 @@ import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
 import com.morchul.connection.Client;
 import com.morchul.connection.SimpleClient;
+import com.morchul.database.DatabaseFactory;
 import com.morchul.database.MongoDB;
 import com.morchul.database.ReducedDatabase;
 import com.morchul.database.Database;
@@ -26,11 +27,7 @@ public class PaPServer extends ApplicationAdapter {
 
     @Override
     public void create () {
-        switch (Settings.getDatabase()){
-            case "mongoDB": database = new MongoDB(); break;
-            case "none": database = new ReducedDatabase(); break;
-            default: database = new ReducedDatabase(); break;
-        }
+        database = DatabaseFactory.createDatabase();
 
         log.info("Server use Database: " + database.getClass().getSimpleName());
         log.info("Starting Server...");

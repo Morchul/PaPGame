@@ -41,5 +41,9 @@ public class MessageModel {
         ALL_TABLE,
         NEW_CREATURE,
         NEXT_ROUND,
+        REMOVE_ITEM,
+        REMOVE_STATUS,
+        REMOVE_SKILL,
+        CREATURE_VALUE_CHANGE
     }
 }

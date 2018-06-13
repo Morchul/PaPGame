@@ -12,7 +12,7 @@ import com.morchul.inventory.ServerInventoryItem;
 import com.morchul.json.JSONConverter;
 import com.morchul.message.MessageModel;
 import com.morchul.model.abstractmodels.Objects;
-import com.morchul.model.models.Creatures;
+import com.morchul.model.abstractmodels.Creatures;
 import com.morchul.model.models.Skill;
 import com.morchul.model.models.Status;
 import com.morchul.model.player.User;
@@ -48,8 +48,48 @@ public class MethodHandler {
         case NEXT_ROUND: nextRoundEvent(message); break;
         case ADD_STATUS: addStatusEvent(message); break;
         case ADD_SKILL: addSkillEvent(message); break;
+        case REMOVE_ITEM: removeItemEvent(message); break;
+        case REMOVE_STATUS: removeStatusEvent(message); break;
+        case REMOVE_SKILL: removeSkillEvent(message); break;
+        case CREATURE_VALUE_CHANGE: creatureValueChangeEvent(message); break;
         default: PaPServer.log.error("NOT IMPLEMENTED: " + message.type);
     }
+  }
+
+  private void creatureValueChangeEvent(MessageModel message){
+        Creatures who = client.getSelf().getGameWrapper().getGame().getCreatureByGameUUID((String)message.param.get(2));
+        if(who != null){
+            who.setValue((String)message.param.get(1), (int)message.param.get(0));
+        }
+        sendFurther(message);
+  }
+
+  private void removeStatusEvent(MessageModel message){
+        Creatures who = client.getSelf().getGameWrapper().getGame().getCreatureByGameUUID((String)message.param.get(1));
+        if(who != null) {
+            Status s = who.getStatusByGameUUID((String) message.param.get(0));
+            if (s != null)
+                who.removeStatus(s);
+        }
+      sendFurther(message);
+  }
+
+  private void removeSkillEvent(MessageModel message){
+      Creatures who = client.getSelf().getGameWrapper().getGame().getCreatureByGameUUID((String)message.param.get(1));
+      if(who != null){
+          Skill s = who.getSkillByGameUUID((String)message.param.get(0));
+          if(s != null)
+              who.removeSkill(s);
+      }
+      sendFurther(message);
+  }
+
+  private void removeItemEvent(MessageModel message){
+      Creatures who = client.getSelf().getGameWrapper().getGame().getCreatureByGameUUID((String)message.param.get(1));
+      ServerInventoryItem item = new ServerInventoryItem(converter.toObjects((JSONObject)message.param.get(0)));
+      if(who != null)
+          who.getInventory().removeItemTotalFromInventory(item);
+      sendFurther(message);
   }
 
   private void addStatusEvent(MessageModel message){

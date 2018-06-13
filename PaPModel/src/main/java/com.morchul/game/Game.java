@@ -1,6 +1,6 @@
 package com.morchul.game;
 
-import com.morchul.model.models.Creatures;
+import com.morchul.model.abstractmodels.Creatures;
 import com.morchul.model.player.User;
 import javafx.collections.ObservableList;
 

@@ -16,7 +16,7 @@ public class Inventory {
     }
 
     public void addItemToInventory(InventoryItem item) {
-        InventoryItem i = getInventoryItem(item.getItem().getUUID());
+        InventoryItem i = getInventoryItemWrapper(item);
         if(i != null && i.getItem().isStackable()) {
             i.addOne();
         } else {
@@ -27,7 +27,7 @@ public class Inventory {
         }
     }
 
-    private InventoryItem getInventoryItem(String uuid) {
+    private InventoryItem getInventoryItemByUUID(String uuid) {
         for(InventoryItem i : inventory){
             if(i.getItem().getUUID().equals(uuid)){
                 return i;
@@ -36,16 +36,46 @@ public class Inventory {
         return null;
     }
 
-    public void removeItemFromInventory(InventoryItem item) {
-        InventoryItem i = getInventoryItem(item.getItem().getUUID());
-        if(i != null){
-            if(i.removeOne()){
-                inventory.remove(item);
+    private InventoryItem getInventoryItemByGameUUID(String gameUUID){
+        for(InventoryItem i : inventory){
+            if(i.getItem().getGameUUID().equals(gameUUID)){
+                return i;
             }
         }
-        for(InventoryListener l: listeners){
-            l.deleteItem(item);
+        return null;
+    }
+
+    private InventoryItem getInventoryItemWrapper(InventoryItem item){
+        if(item.getItem().isStackable()) {
+            return getInventoryItemByUUID(item.getItem().getUUID());
+        } else {
+            return getInventoryItemByGameUUID(item.getItem().getGameUUID());
         }
+    }
+
+    public void removeItemTotalFromInventory(InventoryItem item){
+        InventoryItem i = getInventoryItemWrapper(item);
+        if(i != null) {
+            i.remove();
+            destroyItem(i);
+        }
+    }
+
+    public void removeItemFromInventory(InventoryItem item) {
+        InventoryItem i = getInventoryItemWrapper(item);
+        if(i != null){
+            if(i.removeOne()){
+                destroyItem(i);
+            }
+        }
+    }
+
+    private void destroyItem(InventoryItem i){
+        inventory.remove(i);
+        for(InventoryListener l: listeners){
+            l.deleteItem(i);
+        }
+        i.getItem().destroy();
     }
 
     public ObservableList<InventoryItem> getInventoryList() {
