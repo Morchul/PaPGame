@@ -177,4 +177,13 @@ public class MessageModelCreator {
         param.add(point);
         return new MessageModel(MessageModel.MessageType.ADD_CHARACTERISTIC_POINT, "", param);
     }
+
+    public static MessageModel createValueValueChangedMessage(Anything any, Creatures owner, String valueName, int value){
+        List<Object> param = new ArrayList<>();
+        param.add(any.getGameUUID());
+        param.add(owner.getGameUUID());
+        param.add(valueName);
+        param.add(value);
+        return new MessageModel(MessageModel.MessageType.VALUE_VALUE_CHANGE, "", param);
+    }
 }

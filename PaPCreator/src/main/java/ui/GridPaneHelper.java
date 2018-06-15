@@ -1,5 +1,8 @@
 package ui;
 
+import action.ActionTestHelper;
+import com.morchul.action.Action;
+import com.morchul.action.SimpleAction;
 import com.morchul.model.Type;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
@@ -42,8 +45,10 @@ public class GridPaneHelper extends GridPane {
     private Button addStatusButton;
 
     private int i = 0;
+    private Model model;
 
     public GridPaneHelper(Model model) {
+        this.model = model;
         setVgap(5);
         setHgap(5);
         setPadding(new Insets(5,5,5,5));
@@ -71,6 +76,7 @@ public class GridPaneHelper extends GridPane {
         dropableBox = newCheckBox("Dropable", model.dropable);
         immortalBox = newCheckBox("Immortal", model.immortal);
         actionArea = newTextArea("Action", model.action);
+        addTestActionButton(actionArea);
         armorValueField = newNumberTextField("ArmorValue", model.armorValue);
         weaponValueField = newNumberTextField("WeaponValue", model.weaponValue);
         needWeaponField = newNumberTextField("NeedWeapon", model.needWeapon);
@@ -81,6 +87,25 @@ public class GridPaneHelper extends GridPane {
         addStatusButton = addStatus(model);
 
         changeFieldDisable(model.type.get());
+    }
+
+    private void addTestActionButton(TextArea text){
+        Button b = new Button("Test");
+        b.setOnAction(event -> {
+            Alert alert;
+            if(ActionTestHelper.testAction(text.getText(), model.values)) {
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("Action run successful");
+            } else {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Action run not successful");
+            }
+            alert.setTitle("Test Action");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+        });
+        add(b,0,i);
+        ++i;
     }
 
     private void changeFieldDisable(String type){

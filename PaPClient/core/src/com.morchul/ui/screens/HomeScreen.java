@@ -70,6 +70,7 @@ public class HomeScreen implements CustomScreen {
                 Gdx.input.getTextInput(textInput, "Join Game","", "Game Number");
             }
         });
+        joinGame.setDisabled(Self.characterList.size() == 0);
 
         TextButton createGame = new TextButton("Create Game", skin);
         createGame.addListener(new ChangeListener() {

@@ -4,7 +4,6 @@ package com.morchul.action;
 import com.morchul.model.Value;
 import com.morchul.model.abstractmodels.Anything;
 import com.morchul.model.abstractmodels.Creatures;
-import com.sun.xml.internal.bind.v2.TODO;
 
 import java.util.Random;
 
@@ -17,7 +16,7 @@ public class ActionExecutor {
 
     public ActionExecutor() { }
 
-    public void exec(String action, Anything source, Creatures target){
+    public boolean exec(String action, Anything source, Creatures target){
         this.source = source;
         this.target = target;
 
@@ -26,9 +25,11 @@ public class ActionExecutor {
             for (String command : commands) {
                 execCommand(command);
             }
+            return true;
         }catch (Exception e){
             System.out.println("ERROR");
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -43,7 +44,8 @@ public class ActionExecutor {
     }
 
     private void setValue(String target, int value) throws Exception {
-        String[] t = target.split(".");
+        System.out.println("TARGET:" + target);
+        String[] t = target.split("\\.");
         String type = t[0];
         String tValue = t[1];
 
@@ -59,30 +61,22 @@ public class ActionExecutor {
     private void setSourceValue(String valueN, int value) throws Exception{
         String valueName = valueN.substring(0,valueN.length()-1);
         String action = valueN.substring(valueN.length()-1);
-        Value v = getSourceValueByName(valueName);
+        Value v = source.getValueByName(valueName);
         if(v == null) throw new Exception("ERROR invalid valueName");
         switch (action){
             case "+":
-                v.setValue(v.getValue() + value);
+                v.changeValue(source, target, valueName, v.getValue() + value);
                 break;
             case "-":
-                v.setValue(v.getValue() - value);
+                v.changeValue(source, target, valueName, v.getValue() - value);
                 break;
             case "*":
-                v.setValue(v.getValue() * value);
+                v.changeValue(source, target, valueName, v.getValue() * value);
                 break;
             case "/":
-                v.setValue(v.getValue() / value);
+                v.changeValue(source, target, valueName, v.getValue() / value);
                 break;
         }
-    }
-
-    private Value getSourceValueByName(String name) throws Exception{
-        for(Value v : source.getValues()){
-            if(v.getName().equals(name))
-                return v;
-        }
-        throw new Exception("Can't find value: " + name);
     }
 
     private void setTargetValue(String valueN, int value){
@@ -293,7 +287,7 @@ public class ActionExecutor {
                 Integer.parseInt(values[i]);
             } catch (NumberFormatException e){
                 System.out.println("Can't parse: " + values[i]);
-                Value v = getSourceValueByName(values[i]);
+                Value v = source.getValueByName(values[i]);
                 action = action.replaceAll(values[i], v.getValue()+"");
             }
         }

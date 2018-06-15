@@ -31,7 +31,7 @@ public class Inventory {
         }
     }
 
-    private InventoryItem getInventoryItemByUUID(String uuid) {
+    public InventoryItem getInventoryItemByUUID(String uuid) {
         for(InventoryItem i : inventory){
             if(i.getItem().getUUID().equals(uuid)){
                 return i;
@@ -40,7 +40,7 @@ public class Inventory {
         return null;
     }
 
-    private InventoryItem getInventoryItemByGameUUID(String gameUUID){
+    public InventoryItem getInventoryItemByGameUUID(String gameUUID){
         for(InventoryItem i : inventory){
             if(i.getItem().getGameUUID().equals(gameUUID)){
                 return i;
@@ -49,7 +49,7 @@ public class Inventory {
         return null;
     }
 
-    private InventoryItem getInventoryItemWrapper(InventoryItem item){
+    public InventoryItem getInventoryItemWrapper(InventoryItem item){
         if(item.getItem().isStackable()) {
             return getInventoryItemByUUID(item.getItem().getUUID());
         } else {

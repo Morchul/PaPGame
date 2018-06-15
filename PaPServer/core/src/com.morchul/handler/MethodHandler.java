@@ -12,6 +12,7 @@ import com.morchul.inventory.InventoryItem;
 import com.morchul.inventory.ServerInventoryItem;
 import com.morchul.json.JSONConverter;
 import com.morchul.message.MessageModel;
+import com.morchul.model.Value;
 import com.morchul.model.abstractmodels.Objects;
 import com.morchul.model.abstractmodels.Creatures;
 import com.morchul.model.models.Skill;
@@ -62,8 +63,21 @@ public class MethodHandler {
         case SAVE_CHARACTER: saveCharacterEvent(); break;
         case CALL_BACK: callBackEvent(message); break;
         case ADD_CHARACTERISTIC_POINT: addCharacteristicPointEvent(message); break;
+        case VALUE_VALUE_CHANGE: valueValueChangedEvent(message); break;
         default: PaPServer.log.error("NOT IMPLEMENTED: " + message.type);
     }
+  }
+
+  private void valueValueChangedEvent(MessageModel message){
+      Creatures who = client.getSelf().getGameWrapper().getGame().getCreatureByGameUUID((String)message.param.get(1));
+      if(who != null) {
+          Objects o = who.getInventory().getInventoryItemByGameUUID((String) message.param.get(0)).getItem();
+          Value v = o.getValueByName((String) message.param.get(2));
+          if (v != null) {
+              v.setValue((int) message.param.get(3));
+              sendFurther(message);
+          }
+      }
   }
 
   private void addCharacteristicPointEvent(MessageModel message){

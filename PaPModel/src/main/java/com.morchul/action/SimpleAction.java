@@ -14,18 +14,18 @@ public class SimpleAction implements Action{
     }
 
     @Override
-    public void action(Anything source, Creatures target) {
-        executor.exec(action, source, target);
+    public boolean action(Anything source, Creatures target) {
+        return executor.exec(action, source, target);
     }
 
     @Override
-    public void reverseAction(Anything source, Creatures target) {
+    public boolean reverseAction(Anything source, Creatures target) {
         StringBuilder reverseAction = new StringBuilder();
         String[] commands = action.split(";");
         for(String s : commands){
             reverseAction.append(changeFirstOperator(s)).append(";");
         }
-        executor.exec(reverseAction.toString(), source, target);
+        return executor.exec(reverseAction.toString(), source, target);
 
     }
 

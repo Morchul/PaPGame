@@ -56,6 +56,14 @@ public abstract class Anything {
         }
     }
 
+    public Value getValueByName(String valueName){
+        for(Value v : values){
+            if(v.getName().equals(valueName))
+                return v;
+        }
+        return null;
+    }
+
     public void addListener(ChangeListener l){listener.add(l);}
     public String getName(){return name;}
     public String getUUID(){return UUID;}

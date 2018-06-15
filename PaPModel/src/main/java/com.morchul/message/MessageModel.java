@@ -49,6 +49,7 @@ public class MessageModel {
         REMOVE_STATUS,
         REMOVE_SKILL,
         CREATURE_VALUE_CHANGE,
+        VALUE_VALUE_CHANGE,
         LOOT,
         KILL,
         FINISH_GAME,

@@ -8,6 +8,7 @@ import com.morchul.connections.message.MessageModelCreator;
 import com.morchul.inventory.ClientInventoryItem;
 import com.morchul.inventory.InventoryItem;
 import com.morchul.message.MessageModel;
+import com.morchul.model.Value;
 import com.morchul.model.abstractmodels.Objects;
 import com.morchul.model.abstractmodels.Creatures;
 import com.morchul.model.models.Skill;
@@ -62,7 +63,18 @@ public class MethodHandler {
           case FINISH_GAME: finishGameEvent(); break;
           case CALL_BACK: callBackEvent(); break;
           case ADD_CHARACTERISTIC_POINT: addCharacteristicPointEvent(message); break;
+          case VALUE_VALUE_CHANGE: valueValueChangeEvent(message); break;
           default: log.error("NOT IMPLEMENTED: " + message.type); break;
+      }
+  }
+
+  private void valueValueChangeEvent(MessageModel message){
+      Creatures who = Self.game.getCreatureByGameUUID((String)message.param.get(1));
+      if(who != null) {
+          Objects o = who.getInventory().getInventoryItemByGameUUID((String) message.param.get(0)).getItem();
+          Value v = o.getValueByName((String)message.param.get(2));
+          if(v != null)
+              v.setValue((int)message.param.get(3));
       }
   }
 
