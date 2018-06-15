@@ -3,8 +3,10 @@ package com.morchul.handler;
 import com.badlogic.gdx.Gdx;
 import com.morchul.PaPHelper;
 import com.morchul.connections.Server;
+import com.morchul.connections.StaticServerInterface;
 import com.morchul.connections.message.MessageModelCreator;
 import com.morchul.inventory.ClientInventoryItem;
+import com.morchul.inventory.InventoryItem;
 import com.morchul.message.MessageModel;
 import com.morchul.model.abstractmodels.Objects;
 import com.morchul.model.abstractmodels.Creatures;
@@ -13,6 +15,7 @@ import com.morchul.model.models.Status;
 import com.morchul.Self;
 import com.morchul.model.player.User;
 import com.morchul.ui.ScreenLoader;
+import com.morchul.ui.character.CharacterValueView;
 import com.morchul.ui.screens.AllTableScreen;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -54,7 +57,55 @@ public class MethodHandler {
           case REMOVE_STATUS: removeStatusEvent(message); break;
           case REMOVE_SKILL: removeSkillEvent(message); break;
           case CREATURE_VALUE_CHANGE: creatureValueChangeEvent(message); break;
+          case LOOT: lootEvent(message); break;
+          case KILL: killEvent(message); break;
+          case FINISH_GAME: finishGameEvent(); break;
+          case CALL_BACK: callBackEvent(); break;
+          case ADD_CHARACTERISTIC_POINT: addCharacteristicPointEvent(message); break;
           default: log.error("NOT IMPLEMENTED: " + message.type); break;
+      }
+  }
+
+  private void addCharacteristicPointEvent(MessageModel message){
+      if((message.param.get(0)).equals(Self.user.getCharacter().getGameUUID())){
+          CharacterValueView.addPoints((int)message.param.get(1));
+      } else {
+          log.error("Incorrect forwarding!!");
+      }
+  }
+
+  private void callBackEvent(){
+      //Empty method
+  }
+
+  private void finishGameEvent(){
+      if(!Self.game.IamTheGameMaster()) {
+          StaticServerInterface.sendMessage(MessageModelCreator.createSaveCharacterMessage());
+          StaticServerInterface.sendMessage(MessageModelCreator.createLeafGameMessage());
+          StaticServerInterface.read();
+          Self.leafGame();
+      }
+  }
+
+  private void killEvent(MessageModel message){
+      Creatures who = Self.game.getCreatureByGameUUID(message.message);
+      Self.game.removeNPCDirectly(who);
+      if(Self.user.getCharacter().getGameUUID().equals(message.message)){
+          StaticServerInterface.sendMessage(MessageModelCreator.createLeafGameMessage());
+          StaticServerInterface.read();
+          Self.leafGame("You were killed by GameMaster");
+      }
+  }
+
+  private void lootEvent(MessageModel message){
+      System.out.println("LOOT EVENT");
+      Creatures from = Self.game.getCreatureByGameUUID((String)message.param.get(0));
+      Creatures to = Self.game.getCreatureByGameUUID((String)message.param.get(1));
+      if(from != null && to != null) {
+          for (InventoryItem item : from.getInventory().getInventoryList()) {
+              to.getInventory().addItemToInventory(item);
+          }
+          from.getInventory().clear();
       }
   }
 

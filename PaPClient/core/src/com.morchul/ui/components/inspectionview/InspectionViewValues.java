@@ -1,13 +1,14 @@
 package com.morchul.ui.components.inspectionview;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.morchul.model.abstractmodels.Creatures;
+
+import static com.morchul.ui.StaticUIValues.INSPECTION_VIEW_TEXTFIELD_HEIGHT;
+import static com.morchul.ui.StaticUIValues.INSPECTION_VIEW_TEXTFIELD_WIDTH;
 
 public class InspectionViewValues {
 
@@ -15,14 +16,14 @@ public class InspectionViewValues {
     private Creatures creatures;
     private Skin skin;
 
-    TextField hp;
-    TextField maxHp;
-    TextField mp;
-    TextField maxMp;
-    TextField reaction;
-    TextField will;
-    TextField strength;
-    TextField resistance;
+    private TextField hp;
+    private TextField maxHp;
+    private TextField mp;
+    private TextField maxMp;
+    private TextField reaction;
+    private TextField will;
+    private TextField strength;
+    private TextField resistance;
 
     public InspectionViewValues(Creatures creatures, Skin skin) {
         this.creatures = creatures;
@@ -51,29 +52,65 @@ public class InspectionViewValues {
         hp.addListener(new FocusListener() {
             @Override
             public void keyboardFocusChanged(FocusEvent event, Actor actor, boolean focused) {
-                System.out.println("Focus: " + focused);
-            }
-        });
+                if(!focused) { creatures.setHp(Integer.parseInt(hp.getText())); }}});
 
+        maxHp.addListener(new FocusListener() {
+            @Override
+            public void keyboardFocusChanged(FocusEvent event, Actor actor, boolean focused) {
+                if(!focused) {creatures.setMaxHp(Integer.parseInt(maxHp.getText())); }}});
+
+        mp.addListener(new FocusListener() {
+            @Override
+            public void keyboardFocusChanged(FocusEvent event, Actor actor, boolean focused) {
+                if(!focused) {creatures.setMp(Integer.parseInt(mp.getText())); }}});
+
+        maxMp.addListener(new FocusListener() {
+            @Override
+            public void keyboardFocusChanged(FocusEvent event, Actor actor, boolean focused) {
+                if(!focused) {creatures.setMaxMp(Integer.parseInt(maxMp.getText())); }}});
+
+        reaction.addListener(new FocusListener() {
+            @Override
+            public void keyboardFocusChanged(FocusEvent event, Actor actor, boolean focused) {
+                if(!focused) {creatures.setReaction(Integer.parseInt(reaction.getText())); }}});
+
+        will.addListener(new FocusListener() {
+            @Override
+            public void keyboardFocusChanged(FocusEvent event, Actor actor, boolean focused) {
+                if(!focused) {creatures.setWill(Integer.parseInt(will.getText())); }}});
+
+        strength.addListener(new FocusListener() {
+            @Override
+            public void keyboardFocusChanged(FocusEvent event, Actor actor, boolean focused) {
+                if(!focused) {creatures.setStrength(Integer.parseInt(strength.getText())); }}});
+
+        resistance.addListener(new FocusListener() {
+            @Override
+            public void keyboardFocusChanged(FocusEvent event, Actor actor, boolean focused) {
+                if(!focused) {creatures.setResistance(Integer.parseInt(resistance.getText())); }}});
+
+        table.row().height(INSPECTION_VIEW_TEXTFIELD_HEIGHT);
         table.add("Hp:");
-        table.add(hp);
-        table.add(maxHp);
-        table.row();
+        table.add(hp).width(INSPECTION_VIEW_TEXTFIELD_WIDTH);
+        table.add("/");
+        table.add(maxHp).width(INSPECTION_VIEW_TEXTFIELD_WIDTH);
+        table.row().height(INSPECTION_VIEW_TEXTFIELD_HEIGHT);
         table.add("Mp:");
-        table.add(mp);
-        table.add(maxMp);
-        table.row();
+        table.add(mp).width(INSPECTION_VIEW_TEXTFIELD_WIDTH);
+        table.add("/");
+        table.add(maxMp).width(INSPECTION_VIEW_TEXTFIELD_WIDTH);
+        table.row().height(INSPECTION_VIEW_TEXTFIELD_HEIGHT);
         table.add("Reaction:");
-        table.add(reaction);
-        table.row();
+        table.add(reaction).width(INSPECTION_VIEW_TEXTFIELD_WIDTH);
+        table.row().height(INSPECTION_VIEW_TEXTFIELD_HEIGHT);
         table.add("Will:");
-        table.add(will);
-        table.row();
+        table.add(will).width(INSPECTION_VIEW_TEXTFIELD_WIDTH);
+        table.row().height(INSPECTION_VIEW_TEXTFIELD_HEIGHT);
         table.add("Strength:");
-        table.add(strength);
-        table.row();
+        table.add(strength).width(INSPECTION_VIEW_TEXTFIELD_WIDTH);
+        table.row().height(INSPECTION_VIEW_TEXTFIELD_HEIGHT);
         table.add("Resistance");
-        table.add(resistance);
+        table.add(resistance).width(INSPECTION_VIEW_TEXTFIELD_WIDTH);
 
     }
 

@@ -26,6 +26,7 @@ public class ScreenLoader {
                 return HomeScreen.getInstance();
             case SETTINGS: return SettingsScreen.getInstance();
             case CREATE_GAME: return CreateGameScreen.getInstance();
+            case CREATE_CHARACTER: return CreateCharacterScreen.getInstance();
             case LOBBY: AllTableScreen.getInstance();
                 return LobbyScreen.getInstance();
             case GAME_MASTER: return GameMasterScreen.getInstance();
@@ -52,6 +53,7 @@ public class ScreenLoader {
          HOME,
          SETTINGS,
          CREATE_GAME,
+         CREATE_CHARACTER,
          LOBBY,
          GAME_MASTER,
          GAME,

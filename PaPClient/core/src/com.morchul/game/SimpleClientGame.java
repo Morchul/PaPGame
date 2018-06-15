@@ -29,6 +29,12 @@ public class SimpleClientGame extends SimpleGame {
     }
 
     @Override
+    public void addPlayer(User user){
+        ScreenLoader.setStatus("User: " + user.getUserName() + " join game");
+        super.addPlayer(user);
+    }
+
+    @Override
     public boolean IamTheGameMaster() {
         return IamGameMaster;
     }

@@ -2,6 +2,7 @@ package com.morchul.connections;
 
 import com.badlogic.gdx.net.Socket;
 import com.morchul.PaPHelper;
+import com.morchul.connections.message.MessageModelCreator;
 import com.morchul.connections.sockethandler.ServerReader;
 import com.morchul.connections.sockethandler.ServerWriter;
 import com.morchul.handler.MethodHandler;
@@ -65,6 +66,9 @@ public class SimpleServer implements Server {
   public void listen() { reader.listen(); }
 
   @Override
-  public void stopListen() { reader.stopListen(); }
+  public void stopListen() {
+    reader.stopListen();
+    //sendMessage(MessageModelCreator.createCallBackMessage());
+  }
 
 }

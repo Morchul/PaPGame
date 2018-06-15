@@ -20,9 +20,6 @@ public class Settings {
     private static final String DATABASE_NAME = "databaseName";
     private static final String DEFAULT_DATABASE_NAME = "game";
 
-    private static final String COLLECTION_NAME = "collectionName";
-    private static final String DEFAULT_COLLECTION_NAME = "player";
-
     private static Preferences setting = Gdx.app.getPreferences("serverSettings");
 
     public static String getDatabase(){return setting.getString(DATABASE, DEFAULT_DATABASE);}
@@ -41,9 +38,5 @@ public class Settings {
 
     public static String getDatabaseName(){
         return setting.getString(DATABASE_NAME, DEFAULT_DATABASE_NAME);
-    }
-
-    public static String getCollectionName(){
-        return setting.getString(COLLECTION_NAME, DEFAULT_COLLECTION_NAME);
     }
 }

@@ -20,6 +20,7 @@ import com.morchul.ui.components.inventoryview.InventoryView;
 import com.morchul.ui.components.menubar.MenuBar;
 import com.morchul.ui.components.skillbar.SkillBar;
 import com.morchul.ui.components.statusview.StatusView;
+import com.morchul.ui.character.CharacterViewContainer;
 
 import static com.morchul.ui.StaticUIValues.*;
 
@@ -36,7 +37,7 @@ public class GameScreen implements CustomScreen {
     private SkillBar skillBar;
     private InfoView infoView;
     private AllTableComponent allTableComponent;
-    private CharacterView characterView;
+    private CharacterViewContainer characterView;
     private StatusView statusView;
 
     public GameScreen() {
@@ -60,7 +61,7 @@ public class GameScreen implements CustomScreen {
         allTableComponent = new AllTableComponent(skin);
         statusView = new StatusView(skin, Self.user.getCharacter());
 
-        characterView = new CharacterView(skin, Self.user.getCharacter());
+        characterView = new CharacterViewContainer(skin, Self.user.getCharacter());
         stage.addActor(characterView.getTable());
 
         menuBar.addLeafMenu();
@@ -87,7 +88,6 @@ public class GameScreen implements CustomScreen {
         table.row().height(BOTTOM_SKILL_BAR_HEIGHT);
         table.add(skillBar.getSkillBar()).colspan(4).fillX();
 
-        Vector2 pos = StaticUIValues.getStageLocation(mainTable);
         characterView.getTable().setPosition(LEFT_BAR_WIDTH, BOTTOM_SKILL_BAR_HEIGHT);
     }
 

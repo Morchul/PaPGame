@@ -31,6 +31,10 @@ public class MessageModel {
         GET_CHARACTER,
         READY,
         ALL_PLAYER_READY,
+        CREATE_CHARACTER,
+        LOAD_CHARACTER,
+        SAVE_CHARACTER,
+        CALL_BACK,
 
         //GAME
 
@@ -44,6 +48,10 @@ public class MessageModel {
         REMOVE_ITEM,
         REMOVE_STATUS,
         REMOVE_SKILL,
-        CREATURE_VALUE_CHANGE
+        CREATURE_VALUE_CHANGE,
+        LOOT,
+        KILL,
+        FINISH_GAME,
+        ADD_CHARACTERISTIC_POINT
     }
 }

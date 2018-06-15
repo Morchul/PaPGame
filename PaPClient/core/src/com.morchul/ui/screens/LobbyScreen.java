@@ -53,7 +53,7 @@ public class LobbyScreen implements CustomScreen{
 
         final SelectBox<String> chooseCharacter = new SelectBox<>(skin);
         Array<String> items = new Array<>();
-        for(Creatures c : Self.characters){
+        for(Creatures c : Self.characterList){
             items.add(c.getName());
         }
         chooseCharacter.setItems(items);

@@ -15,6 +15,10 @@ public class Inventory {
         listeners = new ArrayList<>();
     }
 
+    public void clear(){
+        inventory.clear();
+    }
+
     public void addItemToInventory(InventoryItem item) {
         InventoryItem i = getInventoryItemWrapper(item);
         if(i != null && i.getItem().isStackable()) {

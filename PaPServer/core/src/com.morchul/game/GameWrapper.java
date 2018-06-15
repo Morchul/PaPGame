@@ -22,6 +22,14 @@ public class GameWrapper {
         clients.add(gameMaster);
     }
 
+    public Client getClientByCharacterGameUUID(String gameUUID){
+        for(Client c : clients){
+            if(c.getSelf().getUser().getCharacter().getGameUUID().equals(gameUUID))
+                return c;
+        }
+        return null;
+    }
+
     public Game getGame() {
         return game;
     }

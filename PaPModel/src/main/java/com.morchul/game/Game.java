@@ -14,8 +14,9 @@ public interface Game {
     User getGameMaster();
 
     void addNPC(Creatures creatures);
+    void removeNPCDirectly(Creatures creatures);
     void removeNPC(Creatures creatures);
-    void removeNPC(String uuid);
+    void removeNPCByGameUUID(String uuid);
 
     void addPlayer(User user);
     void removePlayer(User user);

@@ -1,7 +1,7 @@
 package com.morchul.collection;
 
 import com.morchul.action.SimpleAction;
-import com.morchul.model.ClientCreatures;
+import com.morchul.model.ClientImpCreatures;
 import com.morchul.model.Type;
 import com.morchul.model.Value;
 import com.morchul.model.abstractmodels.Anything;
@@ -118,7 +118,7 @@ public class FileToModelConverter {
     }
 
     private static Creatures toCreature(JSONObject json, String imagePath){
-        return new ClientCreatures(
+        return new ClientImpCreatures(
                 json.getString(ANYTHING_NAME_KEY),
                 json.getString(ANYTHING_UUID_KEY),
                 "",

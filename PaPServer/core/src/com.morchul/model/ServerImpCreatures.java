@@ -1,11 +1,10 @@
-package com.morchul.model.models;
+package com.morchul.model;
 
-import com.morchul.model.Type;
 import com.morchul.model.abstractmodels.Creatures;
 
-public class SimpleCreatures extends Creatures {
+public class ServerImpCreatures extends Creatures {
 
-    public SimpleCreatures(String name, String uuid, String gameUUID, String imageName, String description, String masterDescription, Type type, int hp, int maxHp, int mp, int maxMp, int reaction, int will, int strength, int resistance, boolean immortal) {
+    public ServerImpCreatures(String name, String uuid, String gameUUID, String imageName, String description, String masterDescription, Type type, int hp, int maxHp, int mp, int maxMp, int reaction, int will, int strength, int resistance, boolean immortal) {
         super(name, uuid, gameUUID, imageName, description, masterDescription, type, hp, maxHp, mp, maxMp, reaction, will, strength, resistance, immortal);
     }
 
@@ -13,7 +12,7 @@ public class SimpleCreatures extends Creatures {
     public void setHp(int hp) {
         this.hp = (hp > maxHp) ? maxHp : hp;
         if(this.hp <= 0) {
-            if (immortal)
+            if(immortal)
                 this.hp = 1;
             else
                 dead();

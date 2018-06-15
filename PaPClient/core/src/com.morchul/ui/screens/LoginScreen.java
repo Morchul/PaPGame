@@ -89,12 +89,19 @@ public class LoginScreen implements CustomScreen {
             } else {
                 ScreenLoader.setStatus("Successful Logged in");
                 Self.user = simpleStaticConverter.toUser(new JSONObject(receive.message));
+                loadCharacters();
                 ScreenLoader.changeScreen(ScreenLoader.Screens.HOME);
             }
         } else {
             log.error("Type is: " + receive.type);
             ScreenLoader.setStatus("Invalid received message.");
         }
+    }
+
+    private void loadCharacters(){
+        StaticServerInterface.sendMessage(MessageModelCreator.createLoadCharacterMessage());
+        MessageModel receive = simpleStaticConverter.toMessageModel(new JSONObject(StaticServerInterface.read()));
+        Self.addCharacters(simpleStaticConverter.toCreatureList(receive.param));
     }
 
     public static LoginScreen getInstance(){

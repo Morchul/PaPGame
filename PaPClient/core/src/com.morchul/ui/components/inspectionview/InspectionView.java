@@ -10,6 +10,8 @@ import com.morchul.ui.dragdrop.interfaces.MainDragAndDropAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static com.morchul.ui.StaticUIValues.*;
+
 public class InspectionView implements DropTarget {
 
     private Table table;
@@ -25,18 +27,28 @@ public class InspectionView implements DropTarget {
         MainDragAndDropAdmin.addTarget(table, this);
     }
 
-    public void update(){
+    public void clear(){
         table.clear();
+    }
 
+    public void update(){
+        clear();
+
+        InspectionViewMainInformation mainInformation = new InspectionViewMainInformation(creatures, skin);
         InspectionViewInventory inventoryView = new InspectionViewInventory(creatures, skin);
         InspectionViewStatus statusView = new InspectionViewStatus(creatures, skin);
         InspectionViewSkill skillView = new InspectionViewSkill(creatures, skin);
         InspectionViewValues valuesView = new InspectionViewValues(creatures, skin);
+        InspectionViewActions actionsView = new InspectionViewActions(creatures, skin, this);
 
-        table.add(inventoryView.getTable()).fillY().width(200);
-        table.add(statusView.getTable()).fillY().width(200);
-        table.add(skillView.getTable()).fillY().width(200);
-        //TODO table.add(valuesView.getTable()).fillY().width(200);
+        table.row().height(INSPECTION_VIEW_TOP_LINE_HEIGHT);
+        table.add(mainInformation.getTable()).colspan(4);
+        table.row().height(BOTTOM_SKILL_BAR_HEIGHT - INSPECTION_VIEW_TOP_LINE_HEIGHT);
+        table.add(inventoryView.getTable()).fillY().width(INSPECTION_VIEW_COMPONENT_WIDTH);
+        table.add(statusView.getTable()).fillY().width(INSPECTION_VIEW_COMPONENT_WIDTH);
+        table.add(skillView.getTable()).fillY().width(INSPECTION_VIEW_COMPONENT_WIDTH);
+        table.add(valuesView.getTable()).fillY().width(LONG_INSPECTION_VIEW_COMPONENT_WIDTH);
+        table.add(actionsView.getTable()).fillY().width(INSPECTION_VIEW_COMPONENT_WIDTH);
     }
 
     public Table getTable() {
@@ -48,7 +60,6 @@ public class InspectionView implements DropTarget {
         if(type != DropActionType.NONE){
             if((object.getItem()) instanceof Creatures){
                 creatures = (Creatures) object.getItem();
-                creatures.addListener(this::update);
                 update();
 
             } else {

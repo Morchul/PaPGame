@@ -8,6 +8,7 @@ import com.morchul.game.Game;
 import com.morchul.game.GameManager;
 import com.morchul.game.GameWrapper;
 import com.morchul.game.SimpleServerGame;
+import com.morchul.inventory.InventoryItem;
 import com.morchul.inventory.ServerInventoryItem;
 import com.morchul.json.JSONConverter;
 import com.morchul.message.MessageModel;
@@ -18,6 +19,7 @@ import com.morchul.model.models.Status;
 import com.morchul.model.player.User;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.UUID;
 
 public class MethodHandler {
@@ -52,8 +54,68 @@ public class MethodHandler {
         case REMOVE_STATUS: removeStatusEvent(message); break;
         case REMOVE_SKILL: removeSkillEvent(message); break;
         case CREATURE_VALUE_CHANGE: creatureValueChangeEvent(message); break;
+        case LOOT: lootEvent(message); break;
+        case KILL: killEvent(message); break;
+        case CREATE_CHARACTER: createCharacterEvent(message); break;
+        case LOAD_CHARACTER: loadCharacterEvent(); break;
+        case FINISH_GAME: finishGameEvent(message); break;
+        case SAVE_CHARACTER: saveCharacterEvent(); break;
+        case CALL_BACK: callBackEvent(message); break;
+        case ADD_CHARACTERISTIC_POINT: addCharacteristicPointEvent(message); break;
         default: PaPServer.log.error("NOT IMPLEMENTED: " + message.type);
     }
+  }
+
+  private void addCharacteristicPointEvent(MessageModel message){
+      Client c = client.getSelf().getGameWrapper().getClientByCharacterGameUUID((String)message.param.get(0));
+      if(c != null) c.sendMessage(message);
+  }
+
+  private void callBackEvent(MessageModel message){
+      client.sendMessage(message);
+  }
+
+  private void saveCharacterEvent(){
+      Creatures character = client.getSelf().getUser().getCharacter();
+      //Set Values back
+      character.setGameUUID("");
+      character.clearStatus();
+      character.setHp(character.getMaxHp());
+      character.setMp(character.getMaxMp());
+      //--------------
+      PaPServer.database.saveCharacter(converter.toJSON(character), client.getSelf().getUser().getUserName());
+  }
+
+  private void finishGameEvent(MessageModel message){
+      sendFurther(message);
+  }
+
+  private void loadCharacterEvent(){
+      List<JSONObject> characters = PaPServer.database.loadCharacters(client.getSelf().getUser().getUserName());
+      client.sendMessage(MessageModelCreator.createLoadCharacterMessage(characters));
+  }
+
+  private void createCharacterEvent(MessageModel message){
+      PaPServer.database.createCharacter(new JSONObject(message.message),client.getSelf().getUser().getUserName());
+  }
+
+  private void killEvent(MessageModel message){
+      Creatures who = client.getSelf().getGameWrapper().getGame().getCreatureByGameUUID(message.message);
+      if(who != null)
+        client.getSelf().getGameWrapper().getGame().removeNPCDirectly(who);
+      sendFurther(message);
+  }
+
+  private void lootEvent(MessageModel message){
+      Creatures from = client.getSelf().getGameWrapper().getGame().getCreatureByGameUUID((String)message.param.get(0));
+      Creatures to = client.getSelf().getGameWrapper().getGame().getCreatureByGameUUID((String)message.param.get(1));
+      if(from != null & to != null) {
+          for (InventoryItem item : from.getInventory().getInventoryList()) {
+              to.getInventory().addItemToInventory(item);
+          }
+          from.getInventory().clear();
+      }
+      sendFurther(message);
   }
 
   private void creatureValueChangeEvent(MessageModel message){

@@ -12,6 +12,8 @@ import com.morchul.model.models.Object;
 import com.morchul.model.player.User;
 import org.json.JSONObject;
 
+import java.util.List;
+
 public interface JSONConverter {
     String VALUES_NAME_KEY = "valuesName";
     String VALUES_VALUE_KEY = "valuesValue";
@@ -79,6 +81,7 @@ public interface JSONConverter {
     JSONObject toPlayerWithCharacter(JSONObject json, Creatures c);
 
     Creatures toCreature(JSONObject json);
+    List<Creatures> toCreatureList(List<java.lang.Object> json);
     Value toValue(JSONObject json);
     GameModel toGame(JSONObject json);
     User toPlayerWithCharacter(JSONObject json);

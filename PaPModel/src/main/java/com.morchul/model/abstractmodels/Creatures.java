@@ -36,6 +36,7 @@ public abstract class Creatures extends Anything {
     protected ObservableList<Skill> skills;
     protected ObservableList<Status> statuses;
     protected List<CreaturesListener> listeners;
+    protected boolean dead = false;
 
     public Creatures(String name, String uuid, String gameUUID, String imageName, String description, String masterDescription, Type type, int hp, int maxHp, int mp, int maxMp, int reaction, int will, int strength, int resistance, boolean immortal) {
         super(name, uuid, gameUUID, imageName, description, masterDescription, type);
@@ -54,7 +55,10 @@ public abstract class Creatures extends Anything {
         listeners = new ArrayList<>();
     }
 
-    public abstract void dead();
+    public void clearStatus(){statuses.clear();}
+    public boolean isDead(){return dead && !immortal;}
+    public void dead(){dead = true;}
+    public void revive(){dead = false;}
     public void addListener(CreaturesListener l){listeners.add(l);}
     public int getHp(){return hp;}
     public abstract void setHp(int hp);
@@ -74,10 +78,10 @@ public abstract class Creatures extends Anything {
     public abstract void setResistance(int resistance);
     public void setValue(String valueName, int value){
         switch (valueName){
-            case HP: hp = value; break;
-            case MAX_HP: maxHp = value; break;
+            case HP: hp = value; if(hp <= 0){if(immortal)hp = 1; else dead();}break;
+            case MAX_HP: maxHp = value; if(hp > maxHp) hp = maxHp; break;
             case MP: mp = value; break;
-            case MAX_MP: maxMp = value; break;
+            case MAX_MP: maxMp = value; if(mp > maxMp) mp = maxMp; break;
             case REACTION: reaction = value; break;
             case WILL: will = value; break;
             case STRENGTH: strength = value; break;

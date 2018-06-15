@@ -1,6 +1,7 @@
 package com.morchul.ui.components.creatureview;
 
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.morchul.PaPHelper;
@@ -10,8 +11,8 @@ import com.morchul.connections.StaticServerInterface;
 import com.morchul.connections.message.MessageModelCreator;
 import com.morchul.handler.CardUtils;
 import com.morchul.model.abstractmodels.Anything;
-import com.morchul.model.abstractmodels.Objects;
 import com.morchul.model.abstractmodels.Creatures;
+import com.morchul.model.abstractmodels.Objects;
 import com.morchul.model.models.Skill;
 import com.morchul.model.models.Status;
 import com.morchul.ui.components.inspectionview.InspectionViewInventoryItem;
@@ -31,22 +32,44 @@ public class CreatureElement implements DropTarget, DragSource {
     private Table table;
     private Logger log = LoggerFactory.getLogger(PaPHelper.class);
 
+    private Label hpLabel;
+    private Label maxHpLabel;
+    private Label mpLabel;
+    private Label maxMpLabel;
 
     public CreatureElement(Creatures creature, Skin skin) {
         this.creature = creature;
+        creature.addListener(this::update);
+
         table = new Table(skin);
         table.setDebug(false);
         table.setTouchable(Touchable.enabled);
 
-        table.add(creature.getName()).colspan(4);
+        hpLabel = new Label(creature.getHp()+"", skin);
+        maxHpLabel = new Label(creature.getMaxHp()+"", skin);
+        mpLabel = new Label(creature.getMp()+"", skin);
+        maxMpLabel = new Label(creature.getMaxMp()+"", skin);
+
+        table.add(creature.getName()).colspan(8);
         table.row();
-        table.add("HP").width(CREATURE_VALUE_WIDTH);
-        table.add(creature.getHp() + "/" + creature.getMaxHp()).width(CREATURE_VALUE_WIDTH);
-        table.add("MP").width(CREATURE_VALUE_WIDTH);
-        table.add(creature.getMp() + "/" + creature.getMaxMp()).width(CREATURE_VALUE_WIDTH);
+        table.add("HP").width(CREATURE_VALUE_WIDTH-10);
+        table.add(hpLabel).width(CREATURE_VALUE_WIDTH / 2);
+        table.add("/");
+        table.add(maxHpLabel).width(CREATURE_VALUE_WIDTH / 2);
+        table.add("MP").width(CREATURE_VALUE_WIDTH-10);
+        table.add(mpLabel).width(CREATURE_VALUE_WIDTH / 2);
+        table.add("/");
+        table.add(maxMpLabel).width(CREATURE_VALUE_WIDTH / 2);
 
         MainDragAndDropAdmin.addTarget(table, this);
         MainDragAndDropAdmin.addSource(table, this, creature.getName());
+    }
+
+    private void update(){
+        hpLabel.setText(creature.getHp()+"");
+        maxHpLabel.setText(creature.getMaxHp()+"");
+        mpLabel.setText(creature.getMp()+"");
+        maxMpLabel.setText(creature.getMaxMp()+"");
     }
 
     public Table getCreatureElement(){
@@ -76,6 +99,10 @@ public class CreatureElement implements DropTarget, DragSource {
                 StaticServerInterface.sendMessage(MessageModelCreator.createAddStatusMessage((Status) object.getItem(), getCreature()));
             } else if(object.getItem() instanceof Skill && Self.game.IamTheGameMaster()){
                 StaticServerInterface.sendMessage(MessageModelCreator.createAddSkillMessage((Skill) object.getItem(), getCreature()));
+            } else if(object.getItem() instanceof Creatures && Self.game.IamTheGameMaster()){
+                if(((Creatures)object.getItem()).isDead())
+                    StaticServerInterface.sendMessage(MessageModelCreator.createLootMessage((Creatures)object.getItem(),getCreature()));
+
             } else {
                 log.info("can't move Item which is not instance of Objects, Status, Skill");
             }

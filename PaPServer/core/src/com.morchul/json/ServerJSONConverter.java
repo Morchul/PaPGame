@@ -1,23 +1,19 @@
-package com.morchul.helper.json;
+package com.morchul.json;
 
-import com.morchul.json.JSONArrayHelper;
-import com.morchul.json.JSONConverter;
-import com.morchul.json.SimpleJSONConverter;
-import com.morchul.model.ClientImpCreatures;
+import com.morchul.model.ServerImpCreatures;
 import com.morchul.model.Type;
 import com.morchul.model.abstractmodels.Creatures;
 import org.json.JSONObject;
 
-public class ClientJSONConverter extends SimpleJSONConverter {
-    public static final JSONConverter simpleStaticConverter = new ClientJSONConverter(new ClientJSONArrayHelper());
+public class ServerJSONConverter extends SimpleJSONConverter {
 
-    public ClientJSONConverter(JSONArrayHelper arrayHelper) {
+    public ServerJSONConverter(JSONArrayHelper arrayHelper) {
         super(arrayHelper);
     }
 
     @Override
-    public Creatures toCreature(JSONObject json) {
-        Creatures c = new ClientImpCreatures(
+    public Creatures toCreature(JSONObject json){
+        Creatures c = new ServerImpCreatures(
                 json.getString(ANYTHING_NAME_KEY),
                 json.getString(ANYTHING_UUID_KEY),
                 json.getString(ANYTHING_GAME_UUID_KEY),

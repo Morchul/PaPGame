@@ -89,15 +89,20 @@ public abstract class SimpleGame implements Game {
     }
 
     @Override
-    public void removeNPC(Creatures creature){
-        removeNPC(creature.getUUID());
+    public void removeNPC(Creatures creatures){
+        removeNPCByGameUUID(creatures.getGameUUID());
     }
 
     @Override
-    public void removeNPC(String uuid) {
-        log.info("Remove creature from game: " + uuid);
+    public void removeNPCDirectly(Creatures creature){
+        npc.remove(creature);
+    }
+
+    @Override
+    public void removeNPCByGameUUID(String gameUUID) {
+        log.info("Remove creature from game: " + gameUUID);
         for(Creatures c : npc){
-            if(c.getUUID().equals(uuid)) {
+            if(c.getGameUUID().equals(gameUUID)) {
                 npc.remove(c);
                 return;
             }

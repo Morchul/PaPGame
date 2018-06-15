@@ -60,6 +60,7 @@ public class GameMasterScreen implements CustomScreen {
         menuBar.addDiceMenu(20);
         menuBar.addAllTableMenu();
         menuBar.addNextRoundMenu();
+        menuBar.addFinishGameMenu();
 
         Table container = new Table();
         container.add(allTableComponent.getField()).width(ALL_TABLE_COMPONENT_WIDTH).height(ALL_TABLE_COMPONENT_HEIGHT);
@@ -74,10 +75,10 @@ public class GameMasterScreen implements CustomScreen {
         table.add(infoView.getInfoList()).growX().colspan(2);
         table.row();
         table.add(creatorView.getCreatorTree()).width(LEFT_BAR_WIDTH).top().fill().expandY();
-        table.add(mainTable).grow().colspan(1);
-        table.add(scrollPane).expandY().top();
+        table.add(mainTable).grow();
+        table.add(scrollPane).expandY().top().width(RIGHT_CREATURE_VIEW_WIDTH);
         table.row().height(BOTTOM_SKILL_BAR_HEIGHT);
-        table.add(inspectionView.getTable()).colspan(3).growX();
+        table.add(inspectionView.getTable()).colspan(4).growX();
 
     }
 

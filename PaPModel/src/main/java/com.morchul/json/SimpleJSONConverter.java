@@ -20,9 +20,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleJSONConverter implements JSONConverter {
+public abstract class SimpleJSONConverter implements JSONConverter {
 
-    private JSONArrayHelper arrayHelper;
+    protected JSONArrayHelper arrayHelper;
 
     public SimpleJSONConverter(JSONArrayHelper arrayHelper){
         this.arrayHelper = arrayHelper;
@@ -195,32 +195,15 @@ public class SimpleJSONConverter implements JSONConverter {
     //-----------------------------------------------------------
 
     @Override
-    public Creatures toCreature(JSONObject json){
-        Creatures c = new SimpleCreatures(
-                json.getString(ANYTHING_NAME_KEY),
-                json.getString(ANYTHING_UUID_KEY),
-                json.getString(ANYTHING_GAME_UUID_KEY),
-                json.getString(ANYTHING_IMAGE_PATH_KEY),
-                json.getString(ANYTHING_DESCRIPTION_KEY),
-                json.getString(ANYTHING_MASTER_DESCRIPTION_KEY),
-                new Type(json.getString(ANYTHING_TYPE_KEY)),
-                json.getInt(CREATURE_HP_KEY),
-                json.getInt(CREATURE_MAX_HP_KEY),
-                json.getInt(CREATURE_MP_KEY),
-                json.getInt(CREATURE_MAX_MP_KEY),
-                json.getInt(CREATURE_REACTION_KEY),
-                json.getInt(CREATURE_WILL_KEY),
-                json.getInt(CREATURE_STRENGTH_KEY),
-                json.getInt(CREATURE_RESISTANCE_KEY),
-                json.getBoolean(CREATURE_IMMORTAL_KEY)
-        );
+    public abstract Creatures toCreature(JSONObject json);
 
-        arrayHelper.fillValueList(json, c);
-        arrayHelper.fillInventoryList(json, c);
-        arrayHelper.fillSkillList(json, c);
-        arrayHelper.fillStatusList(json, c);
-
-        return c;
+    @Override
+    public List<Creatures> toCreatureList(List<java.lang.Object> objects){
+        List<Creatures> creaturesList = new ArrayList<>();
+        for(java.lang.Object o : objects){
+            creaturesList.add(toCreature((JSONObject)o));
+        }
+        return creaturesList;
     }
 
     @Override

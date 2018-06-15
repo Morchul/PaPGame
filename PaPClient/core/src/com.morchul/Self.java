@@ -3,8 +3,9 @@ package com.morchul;
 import com.badlogic.gdx.Gdx;
 import com.morchul.collection.Collections;
 import com.morchul.connections.StaticServerInterface;
+import com.morchul.connections.message.MessageModelCreator;
 import com.morchul.game.Game;
-import com.morchul.model.ClientCreatures;
+import com.morchul.model.ClientImpCreatures;
 import com.morchul.model.Type;
 import com.morchul.model.abstractmodels.Creatures;
 import com.morchul.model.player.User;
@@ -21,18 +22,22 @@ public class Self {
     public static User user;
     public static Game game;
 
-    public static List<Creatures> characters = new ArrayList<>();
+    public static List<Creatures> characterList = new ArrayList<>();
     public static Collections collections;
     private static Logger log = LoggerFactory.getLogger(PaPHelper.class);
 
-    static {
-        //DEBUG Constructor TODO remove
-        characters.add(new ClientCreatures("Archer", "uuidPlayer1","","","Description", "", new Type(Type.PLAYER), 50,50,10,20,5,5,5,5,false));
-        characters.add(new ClientCreatures("Warrior", "uuidPlayer2","","","Description", "", new Type(Type.PLAYER), 60,60,10,10,4,1,6,5,false));
+//    static {
+//        //DEBUG Constructor TODO remove
+//        characterList.add(new ClientImpCreatures("Archer", "uuidPlayer1","gameUUIDPlayer1","","Description", "", new Type(Type.PLAYER), 50,50,10,20,5,5,5,5,false));
+//        characterList.add(new ClientImpCreatures("Warrior", "uuidPlayer2","gameUUIDPlayer2","","Description", "", new Type(Type.PLAYER), 60,60,10,10,4,1,6,5,false));
+//    }
+
+    public static void addCharacters(List<Creatures> creatures){
+        characterList.addAll(creatures);
     }
 
     public static Creatures getCharacter(String s){
-        for(Creatures c: characters){
+        for(Creatures c: characterList){
             if(c.getName().equals(s)) {
                 return c;
             }
@@ -40,11 +45,18 @@ public class Self {
         return null;
     }
 
-    public static void leafGame(){
+    public static void leafGame(String reason){
         log.info("Leaf Game " + Self.game.getGameNumber());
         StaticServerInterface.stopListen();
         Self.game = null;
-        Gdx.app.postRunnable(() -> ScreenLoader.changeScreen(ScreenLoader.Screens.HOME));
+        Gdx.app.postRunnable(() -> {
+            ScreenLoader.changeScreen(ScreenLoader.Screens.HOME);
+            ScreenLoader.setStatus(reason);
+        });
+    }
+
+    public static void leafGame(){
+        leafGame("");
     }
 
     public static void loadCollection(){

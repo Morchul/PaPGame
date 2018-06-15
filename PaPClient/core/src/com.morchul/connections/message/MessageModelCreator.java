@@ -139,4 +139,42 @@ public class MessageModelCreator {
         param.add(who.getGameUUID());
         return new MessageModel(MessageModel.MessageType.CREATURE_VALUE_CHANGE,"", param);
     }
+
+    public static MessageModel createLootMessage(Creatures from, Creatures to){
+        List<Object> param = new ArrayList<>();
+        param.add(from.getGameUUID());
+        param.add(to.getGameUUID());
+        return new MessageModel(MessageModel.MessageType.LOOT,"", param);
+    }
+
+    public static MessageModel createKillMessage(Creatures who){
+        return new MessageModel(MessageModel.MessageType.KILL, who.getGameUUID());
+    }
+
+    public static MessageModel createCreateCharacterMessage(Creatures creatures){
+        return new MessageModel(MessageModel.MessageType.CREATE_CHARACTER, simpleStaticConverter.toJSON(creatures).toString());
+    }
+
+    public static MessageModel createLoadCharacterMessage(){
+        return new MessageModel(MessageModel.MessageType.LOAD_CHARACTER, "");
+    }
+
+    public static MessageModel createFinishGameMessage(){
+        return new MessageModel(MessageModel.MessageType.FINISH_GAME, "");
+    }
+
+    public static MessageModel createSaveCharacterMessage(){
+        return new MessageModel(MessageModel.MessageType.SAVE_CHARACTER, "");
+    }
+
+    public static MessageModel createCallBackMessage(){
+        return new MessageModel(MessageModel.MessageType.CALL_BACK, "");
+    }
+
+    public static MessageModel createAddPointMessage(Creatures creatures, int point){
+        List<Object> param = new ArrayList<>();
+        param.add(creatures.getGameUUID());
+        param.add(point);
+        return new MessageModel(MessageModel.MessageType.ADD_CHARACTERISTIC_POINT, "", param);
+    }
 }

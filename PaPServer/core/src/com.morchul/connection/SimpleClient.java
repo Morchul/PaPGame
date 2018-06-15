@@ -9,6 +9,7 @@ import com.morchul.connection.sockethandler.ClientWriter;
 import com.morchul.handler.MethodHandler;
 import com.morchul.json.JSONConverter;
 import com.morchul.json.ServerJSONArrayHelper;
+import com.morchul.json.ServerJSONConverter;
 import com.morchul.json.SimpleJSONConverter;
 import com.morchul.message.MessageModel;
 import com.morchul.model.player.User;
@@ -35,7 +36,7 @@ public class SimpleClient implements Client {
     self = new Self();
     this.id = id;
     clientSocket = socket;
-    converter = new SimpleJSONConverter(new ServerJSONArrayHelper());
+    converter = new ServerJSONConverter(new ServerJSONArrayHelper());
     new MessageModelCreator(converter);
     writer = new ClientWriter(new PrintWriter(clientSocket.getOutputStream()), this, converter);
     reader = new ClientReader(new BufferedReader(new InputStreamReader(clientSocket.getInputStream())), this);
@@ -93,8 +94,9 @@ public class SimpleClient implements Client {
 
   @Override
   public void logout() {
-    if(self.getUser() != null)
+    if(self.getUser() != null) {
       PaPServer.database.logout(self.getUser().getUserName());
+    }
     self.setUser(null);
   }
 

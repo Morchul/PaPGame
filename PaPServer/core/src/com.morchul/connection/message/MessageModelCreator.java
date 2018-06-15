@@ -4,6 +4,7 @@ import com.morchul.game.Game;
 import com.morchul.json.JSONConverter;
 import com.morchul.message.MessageModel;
 import com.morchul.model.player.User;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,5 +63,9 @@ public class MessageModelCreator {
 
     public static MessageModel createCloseGameMessage(){
         return new MessageModel(MessageModel.MessageType.CLOSE_GAME, "Game master has close the game");
+    }
+
+    public static MessageModel createLoadCharacterMessage(List<JSONObject> characters){
+        return new MessageModel(MessageModel.MessageType.LOAD_CHARACTER,"", new ArrayList<>(characters));
     }
 }

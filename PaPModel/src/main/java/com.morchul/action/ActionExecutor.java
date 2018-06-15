@@ -4,6 +4,7 @@ package com.morchul.action;
 import com.morchul.model.Value;
 import com.morchul.model.abstractmodels.Anything;
 import com.morchul.model.abstractmodels.Creatures;
+import com.sun.xml.internal.bind.v2.TODO;
 
 import java.util.Random;
 
@@ -23,7 +24,7 @@ public class ActionExecutor {
         String[] commands = action.split(";");
         try {
             for (String command : commands) {
-//                execCommand(command); TODO
+                execCommand(command);
             }
         }catch (Exception e){
             System.out.println("ERROR");
@@ -55,20 +56,33 @@ public class ActionExecutor {
         }
     }
 
-    private void setSourceValue(String valueN, int value){
+    private void setSourceValue(String valueN, int value) throws Exception{
         String valueName = valueN.substring(0,valueN.length()-1);
         String action = valueN.substring(valueN.length()-1);
-
+        Value v = getSourceValueByName(valueName);
+        if(v == null) throw new Exception("ERROR invalid valueName");
         switch (action){
             case "+":
+                v.setValue(v.getValue() + value);
                 break;
             case "-":
+                v.setValue(v.getValue() - value);
                 break;
-            case "*": //TODO
+            case "*":
+                v.setValue(v.getValue() * value);
                 break;
             case "/":
+                v.setValue(v.getValue() / value);
                 break;
         }
+    }
+
+    private Value getSourceValueByName(String name) throws Exception{
+        for(Value v : source.getValues()){
+            if(v.getName().equals(name))
+                return v;
+        }
+        throw new Exception("Can't find value: " + name);
     }
 
     private void setTargetValue(String valueN, int value){
@@ -110,7 +124,6 @@ public class ActionExecutor {
                     case HP:
                         if(target.getHp() - value <= 0){
                             target.setValue(valueName,0);
-                            target.dead();
                         } else {
                             target.setValue(valueName,target.getHp() - value);
                         }
@@ -127,12 +140,6 @@ public class ActionExecutor {
                         break;
                     case MP:
                         if(target.getMp() - value <= 0){
-                            if(target.getHp() - (value - target.getMp()) <= 0){
-                                target.setValue(valueName,0);
-                                target.dead();
-                            } else {
-                                target.setValue(valueName,target.getHp() - ( value - target.getMp()));
-                            }
                             target.setValue(valueName,0);
                         } else {
                             target.setValue(valueName,target.getMp() - value);
@@ -279,24 +286,18 @@ public class ActionExecutor {
     }
 
     private String replaceValueNames(String action) throws Exception {
+        System.out.println("ReplaceValueNames: " + action);
         String[] values = action.split("[+\\-*/]");
-        for(String v : values){
+        for(int i = 1; i < values.length; ++i){
             try {
-                Integer.parseInt(v);
+                Integer.parseInt(values[i]);
             } catch (NumberFormatException e){
-                int i = getValueFromValues(v);
-                action = action.replaceAll(v, i+"");
+                System.out.println("Can't parse: " + values[i]);
+                Value v = getSourceValueByName(values[i]);
+                action = action.replaceAll(values[i], v.getValue()+"");
             }
         }
         return action;
-    }
-
-    private int getValueFromValues(String valueName) throws Exception {
-        for(Value v : source.getValues()){
-            if(v.getName().equals(valueName))
-                return v.getValue();
-        }
-        throw new Exception("Can't find value: " + valueName);
     }
 
     private String replaceRandom(String action) throws Exception{

@@ -19,6 +19,8 @@ import com.morchul.message.MessageModel;
 import com.morchul.ui.ScreenLoader;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import static com.morchul.helper.json.ClientJSONConverter.simpleStaticConverter;
 import static com.morchul.ui.StaticUIValues.DEFAULT_SKIN;
 
@@ -46,8 +48,13 @@ public class HomeScreen implements CustomScreen {
                 if(receive.message.equals("NOK")){
                     ScreenLoader.setStatus("Can't connect to GameNumber: " + text);
                 } else {
-                    Self.game = new SimpleClientGame(simpleStaticConverter.toGame(new JSONObject(receive.message)),(boolean)receive.param.get(0));
-                    Gdx.app.postRunnable(() -> ScreenLoader.changeScreen(ScreenLoader.Screens.LOBBY));
+                    try {
+                        Self.game = new SimpleClientGame(simpleStaticConverter.toGame(new JSONObject(receive.message)), (boolean) receive.param.get(0));
+                        Gdx.app.postRunnable(() -> ScreenLoader.changeScreen(ScreenLoader.Screens.LOBBY));
+                    } catch (Exception e){
+                        e.printStackTrace();
+                        System.out.println(receive.message);
+                    }
                 }
             }
 
@@ -60,7 +67,7 @@ public class HomeScreen implements CustomScreen {
         joinGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Gdx.input.getTextInput(textInput, "Dialog title","", "Blubber");
+                Gdx.input.getTextInput(textInput, "Join Game","", "Game Number");
             }
         });
 
@@ -69,6 +76,14 @@ public class HomeScreen implements CustomScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 ScreenLoader.changeScreen(ScreenLoader.Screens.CREATE_GAME);
+            }
+        });
+
+        TextButton createCharacter = new TextButton("Create Character", skin);
+        createCharacter.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                ScreenLoader.changeScreen(ScreenLoader.Screens.CREATE_CHARACTER);
             }
         });
 
@@ -89,7 +104,10 @@ public class HomeScreen implements CustomScreen {
         table.row().pad(10,0,10,0);
         table.add(createGame).fillX().uniformX();
         table.row();
+        table.add(createCharacter).fillX().uniformX();
+        table.row().pad(10,0,10,0);
         table.add(logout).fillX().uniformX();
+
     }
 
     public static HomeScreen getInstance(){

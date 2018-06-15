@@ -3,7 +3,6 @@ package com.morchul.ui.character;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.morchul.model.Type;
@@ -11,19 +10,18 @@ import com.morchul.model.abstractmodels.Creatures;
 
 import static com.morchul.ui.StaticUIValues.CHARACTER_FIELD_SIZE;
 import static com.morchul.ui.StaticUIValues.CHARACTER_VIEW_HEIGHT;
-import static com.morchul.ui.StaticUIValues.CHARACTER_VIEW_WIDTH;
+import static com.morchul.ui.StaticUIValues.CHARACTER_VIEW_CONTAINER_WIDTH;
 
 public class CharacterView {
 
     private Table table;
-    private boolean visible = false;
 
-    public CharacterView(Skin skin, Creatures character) {
+
+    public CharacterView(Creatures character) {
         table = new Table();
-        table.setVisible(visible);
-        table.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("CharacterPortrait.jpg")))));
-        table.setSize(CHARACTER_VIEW_WIDTH,CHARACTER_VIEW_HEIGHT);
 
+        table.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("CharacterPortrait.jpg")))));
+        table.setSize(CHARACTER_VIEW_CONTAINER_WIDTH,CHARACTER_VIEW_HEIGHT);
 
         CharacterField weapon = new CharacterField(new Type(Type.WEAPON), character);
         CharacterField headArmor = new CharacterField(new Type(Type.HEAD_ARMOR), character);
@@ -54,18 +52,4 @@ public class CharacterView {
         return table;
     }
 
-    public void show(){
-        visible = true;
-        table.setVisible(true);
-    }
-    public void hide(){
-        visible = false;
-        table.setVisible(false);
-    }
-    public void changeVisible(){
-        if(visible)
-            hide();
-        else
-            show();
-    }
 }

@@ -9,6 +9,7 @@ import com.morchul.connections.message.MessageModelCreator;
 import com.morchul.Self;
 import com.morchul.ui.ScreenLoader;
 import com.morchul.ui.character.CharacterView;
+import com.morchul.ui.character.CharacterViewContainer;
 import com.morchul.ui.components.statusview.StatusView;
 
 import java.util.ArrayList;
@@ -29,6 +30,18 @@ public class MenuBar {
         items = new ArrayList<>();
     }
 
+    public void addFinishGameMenu(){
+        MenuBarItem item = new MenuBarItem("F", skin);
+        item.setColor(0,0,0,1);
+        item.addAction(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                StaticServerInterface.sendMessage(MessageModelCreator.createFinishGameMessage());
+            }
+        });
+        items.add(item);
+    }
+
     public void addBackToGameScreen(){
         MenuBarItem item = new MenuBarItem("Back", skin);
         item.setColor(75,0,130,1);
@@ -44,7 +57,7 @@ public class MenuBar {
         items.add(item);
     }
 
-    public void addCharacterMenu(CharacterView view){
+    public void addCharacterMenu(CharacterViewContainer view){
         MenuBarItem item  = new MenuBarItem("C", skin);
         item.setColor(255,215,0,1);
         item.addAction(new ChangeListener() {
