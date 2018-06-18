@@ -79,6 +79,9 @@ public class GameMasterScreen implements CustomScreen {
         table.add(scrollPane).expandY().top().width(RIGHT_CREATURE_VIEW_WIDTH);
         table.row().height(BOTTOM_SKILL_BAR_HEIGHT);
         table.add(inspectionView.getTable()).colspan(4).growX();
+        table.row().height(BOTTOM_SKILL_BAR_HEIGHT);
+        InspectionView inspectionView2 = new InspectionView(skin);
+        table.add(inspectionView2.getTable()).colspan(4).growX();
 
     }
 

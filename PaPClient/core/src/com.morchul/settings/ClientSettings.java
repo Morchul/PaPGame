@@ -3,7 +3,7 @@ package com.morchul.settings;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
-public class Settings {
+public class ClientSettings {
 
     private static final String COLLECTIONS_PATH = "collectionsPath";
     private static final String DEFAULT_COLLECTIONS_PATH = Gdx.files.getExternalStoragePath();

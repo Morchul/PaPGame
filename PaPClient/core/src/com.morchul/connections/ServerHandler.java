@@ -5,7 +5,7 @@ import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.morchul.PaPHelper;
-import com.morchul.settings.Settings;
+import com.morchul.settings.ClientSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +32,7 @@ public class ServerHandler {
     hints.socketTimeout = SOCKET_TIMEOUT;
     Socket socket = null;
     try {
-      socket = Gdx.net.newClientSocket(PROTOCOL, Settings.getHost(), Settings.getPort(), hints);
+      socket = Gdx.net.newClientSocket(PROTOCOL, ClientSettings.getHost(), ClientSettings.getPort(), hints);
 
     } catch (GdxRuntimeException exception){
       log.error("Can't connect to Server: " + exception);

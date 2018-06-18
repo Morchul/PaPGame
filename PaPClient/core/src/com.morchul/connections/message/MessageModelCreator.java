@@ -1,6 +1,7 @@
 package com.morchul.connections.message;
 
 import com.morchul.PaPHelper;
+import com.morchul.action.Action;
 import com.morchul.inventory.InventoryItem;
 import com.morchul.message.MessageModel;
 import com.morchul.model.abstractmodels.Anything;
@@ -185,5 +186,13 @@ public class MessageModelCreator {
         param.add(valueName);
         param.add(value);
         return new MessageModel(MessageModel.MessageType.VALUE_VALUE_CHANGE, "", param);
+    }
+
+    public static MessageModel createActionMessage(String actionText, Objects source, Creatures target){
+        List<Object> param = new ArrayList<>();
+        param.add(source.getGameUUID());
+        param.add(target.getGameUUID());
+        param.add(simpleStaticConverter.toJSON(source));
+        return new MessageModel(MessageModel.MessageType.ACTION, actionText, param);
     }
 }

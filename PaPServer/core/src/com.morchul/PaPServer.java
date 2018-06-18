@@ -9,10 +9,8 @@ import com.badlogic.gdx.net.SocketHints;
 import com.morchul.connection.Client;
 import com.morchul.connection.SimpleClient;
 import com.morchul.database.DatabaseFactory;
-import com.morchul.database.MongoDB;
-import com.morchul.database.ReducedDatabase;
 import com.morchul.database.Database;
-import com.morchul.settings.Settings;
+import com.morchul.settings.ServerSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,29 +30,26 @@ public class PaPServer extends ApplicationAdapter {
         log.info("Server use Database: " + database.getClass().getSimpleName());
         log.info("Starting Server...");
         //new GameManager();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    ServerSocketHints hints = new ServerSocketHints();
-                    hints.acceptTimeout = ACCEPT_TIMEOUT;
-                    ServerSocket serverSocket = Gdx.net.newServerSocket(PROTOCOL, Settings.getPort(), hints);
-                    log.info("Server running on port: " + Settings.getPort());
-                    SocketHints sHints = new SocketHints();
-                    sHints.connectTimeout = CONNECT_TIMEOUT;
-                    sHints.socketTimeout = SOCKET_TIMEOUT;
-                    while (!stopped) {
-                        log.info("Waiting for connection...");
-                        Socket clientSocket = serverSocket.accept(sHints);
-                        log.info("Found connection!");
+        new Thread(() -> {
+            try {
+                ServerSocketHints hints = new ServerSocketHints();
+                hints.acceptTimeout = ACCEPT_TIMEOUT;
+                ServerSocket serverSocket = Gdx.net.newServerSocket(PROTOCOL, ServerSettings.getPort(), hints);
+                log.info("Server running on port: " + ServerSettings.getPort());
+                SocketHints sHints = new SocketHints();
+                sHints.connectTimeout = CONNECT_TIMEOUT;
+                sHints.socketTimeout = SOCKET_TIMEOUT;
+                while (!stopped) {
+                    log.info("Waiting for connection...");
+                    Socket clientSocket = serverSocket.accept(sHints);
+                    log.info("Found connection!");
 
-                        Client listener = new SimpleClient(clientSocket, ++ClientID);
-                        new Thread(listener).start();
-                    }
-                    log.info("Server stopped");
-                } catch (Exception e){
-                    log.error("Fatal error occurs! Server shutdown...");
+                    Client listener = new SimpleClient(clientSocket, ++ClientID);
+                    new Thread(listener).start();
                 }
+                log.info("Server stopped");
+            } catch (Exception e){
+                log.error("Fatal error occurs! Server shutdown...");
             }
         }).start();
     }

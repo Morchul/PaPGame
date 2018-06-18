@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.morchul.settings.Settings;
+import com.morchul.settings.ClientSettings;
 import com.morchul.ui.ScreenLoader;
 
 import static com.morchul.ui.StaticUIValues.DEFAULT_SKIN;
@@ -43,10 +43,10 @@ public class SettingsScreen implements CustomScreen {
             }
         });
 
-        collectionPathField = new TextField(Settings.getCollectionsPath(), skin);
-        portField = new TextField(Settings.getPort()+"", skin);
+        collectionPathField = new TextField(ClientSettings.getCollectionsPath(), skin);
+        portField = new TextField(ClientSettings.getPort()+"", skin);
         portField.setTextFieldFilter(new TextField.TextFieldFilter.DigitsOnlyFilter());
-        hostField = new TextField(Settings.getHost(), skin);
+        hostField = new TextField(ClientSettings.getHost(), skin);
 
         status = new Label("", skin);
         table.add(status).colspan(2).pad(SETTINGS_TABLE_PAD);
@@ -64,10 +64,10 @@ public class SettingsScreen implements CustomScreen {
     }
 
     private void save(){
-        Settings.setCollectionsPath(collectionPathField.getText());
-        Settings.setHost(hostField.getText());
-        Settings.setPort(Integer.parseInt(portField.getText()));
-        Settings.save();
+        ClientSettings.setCollectionsPath(collectionPathField.getText());
+        ClientSettings.setHost(hostField.getText());
+        ClientSettings.setPort(Integer.parseInt(portField.getText()));
+        ClientSettings.save();
     }
 
     public static SettingsScreen getInstance(){return new SettingsScreen();}

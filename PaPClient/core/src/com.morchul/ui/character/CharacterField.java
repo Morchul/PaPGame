@@ -6,12 +6,16 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.morchul.PaPHelper;
+import com.morchul.action.Action;
 import com.morchul.card.Card;
+import com.morchul.connections.StaticServerInterface;
+import com.morchul.connections.message.MessageModelCreator;
 import com.morchul.handler.CardUtils;
 import com.morchul.inventory.ClientInventoryItem;
 import com.morchul.model.ChangeListener;
 import com.morchul.model.Type;
 import com.morchul.model.abstractmodels.Anything;
+import com.morchul.model.abstractmodels.Objects;
 import com.morchul.model.abstractmodels.Wearable;
 import com.morchul.model.abstractmodels.Creatures;
 import com.morchul.ui.dragdrop.interfaces.DragSource;
@@ -49,17 +53,21 @@ public class CharacterField implements DropTarget, DragSource {
                 @Override
                 public void destroyCardEvent() { }
             });
-            item.getPullOnAction().action(item, creature);
+            sendAction(item.getPullOnAction().getActionText(), item, creature);
             image.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(item.getImagePath()))));
         }
     }
 
     public void pullOff(){
         if(item != null) {
-            item.getPullOnAction().reverseAction(item, creature);
+            sendAction(item.getPullOnAction().getReverseActionText(),item, creature);
             item = null;
             Gdx.app.postRunnable(() -> image.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("EmptyCharacterField.jpg"))))));
         }
+    }
+
+    private void sendAction(String actionText, Objects source, Creatures target){
+        StaticServerInterface.sendMessage(MessageModelCreator.createActionMessage(actionText, source, target));
     }
 
     public Image getField(){

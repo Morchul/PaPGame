@@ -8,7 +8,7 @@ import com.morchul.model.abstractmodels.Creatures;
 public class ClientValue implements Value {
 
     public ClientValue() {
-        //TODO Standard Constructor
+        //TODO implement Client Value for change value values
     }
 
     @Override

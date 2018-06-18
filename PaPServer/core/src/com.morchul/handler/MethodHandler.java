@@ -2,6 +2,8 @@ package com.morchul.handler;
 
 
 import com.morchul.PaPServer;
+import com.morchul.action.Action;
+import com.morchul.action.SimpleAction;
 import com.morchul.connection.Client;
 import com.morchul.connection.message.MessageModelCreator;
 import com.morchul.game.Game;
@@ -64,8 +66,24 @@ public class MethodHandler {
         case CALL_BACK: callBackEvent(message); break;
         case ADD_CHARACTERISTIC_POINT: addCharacteristicPointEvent(message); break;
         case VALUE_VALUE_CHANGE: valueValueChangedEvent(message); break;
+        case ACTION: actionEvent(message); break;
         default: PaPServer.log.error("NOT IMPLEMENTED: " + message.type);
     }
+  }
+
+  private void actionEvent(MessageModel message){
+      Creatures target = client.getSelf().getGameWrapper().getGame().getCreatureByGameUUID((String)message.param.get(1));
+      if(target != null) {
+          InventoryItem item = target.getInventory().getInventoryItemByGameUUID((String) message.param.get(0));
+          Objects source;
+          Action action = new SimpleAction(message.message);
+          if(item == null)
+              source = converter.toObjects((JSONObject)message.param.get(2));
+          else
+              source = item.getItem();
+          action.action(source, target);
+          sendFurther(message);
+      }
   }
 
   private void valueValueChangedEvent(MessageModel message){

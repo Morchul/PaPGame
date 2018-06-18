@@ -133,7 +133,8 @@ public class Card extends Table implements DragSource, DropTarget {
 
     private void destroy(){
         item.setCard(null);
-        texture.dispose();
+        if(texture != null)
+            texture.dispose();
         remove();
     }
 

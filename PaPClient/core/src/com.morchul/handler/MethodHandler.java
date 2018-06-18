@@ -2,6 +2,8 @@ package com.morchul.handler;
 
 import com.badlogic.gdx.Gdx;
 import com.morchul.PaPHelper;
+import com.morchul.action.Action;
+import com.morchul.action.SimpleAction;
 import com.morchul.connections.Server;
 import com.morchul.connections.StaticServerInterface;
 import com.morchul.connections.message.MessageModelCreator;
@@ -64,7 +66,22 @@ public class MethodHandler {
           case CALL_BACK: callBackEvent(); break;
           case ADD_CHARACTERISTIC_POINT: addCharacteristicPointEvent(message); break;
           case VALUE_VALUE_CHANGE: valueValueChangeEvent(message); break;
+          case ACTION: actionEvent(message); break;
           default: log.error("NOT IMPLEMENTED: " + message.type); break;
+      }
+  }
+
+  private void actionEvent(MessageModel message){
+      Creatures target = Self.game.getCreatureByGameUUID((String)message.param.get(1));
+      if(target != null) {
+          InventoryItem item = target.getInventory().getInventoryItemByGameUUID((String) message.param.get(0));
+          Objects source;
+          Action action = new SimpleAction(message.message);
+          if (item == null)
+              source = simpleStaticConverter.toObjects((JSONObject)message.param.get(2));
+          else
+              source = item.getItem();
+          action.action(source, target);
       }
   }
 

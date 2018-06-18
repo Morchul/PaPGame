@@ -49,7 +49,7 @@ public class CollectionLoader {
     private void loadItem(File f, TreeItem<String> parent){
         if(f.getName().endsWith(".card")){
             try(FileInputStream input = new FileInputStream(f)) {
-                CustomTreeViewLeaf item = readCard(input);
+                CustomTreeViewLeaf item = readCard(input, f.getPath().substring(0,f.getPath().lastIndexOf("\\")+1));
                 parent.getChildren().add(item);
             }catch (IOException | ClassNotFoundException e){
                 e.printStackTrace();
@@ -61,10 +61,14 @@ public class CollectionLoader {
         }
     }
 
-    private CustomTreeViewLeaf readCard(FileInputStream input) throws IOException, ClassNotFoundException {
-        ObjectInputStream in = new ObjectInputStream(input);
-        CustomTreeViewLeaf item = new CustomTreeViewLeaf(toModel((String) in.readObject()));
-        in.close();
-        return item;
+    private CustomTreeViewLeaf readCard(FileInputStream input, String path) throws IOException, ClassNotFoundException {
+        try(ObjectInputStream in = new ObjectInputStream(input)) {
+            CustomTreeViewLeaf item = new CustomTreeViewLeaf(toModel((String) in.readObject()));
+            item.getModel().imagePath.set(path + item.getModel().imagePath.get());
+            return item;
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

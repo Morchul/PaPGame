@@ -6,7 +6,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import com.morchul.settings.Settings;
+import com.morchul.settings.ServerSettings;
 import org.bson.Document;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -30,9 +30,9 @@ public class MongoDB implements Database {
   private MongoCollection<Document> collection;
 
   public MongoDB() {
-    log.info("Open MongoDB Connection on: " + Settings.getDatabaseHost() + ":" + Settings.getDatabasePort());
-    mongo = new MongoClient(Settings.getDatabaseHost(), Settings.getDatabasePort());
-    database = mongo.getDatabase(Settings.getDatabaseName());
+    log.info("Open MongoDB Connection on: " + ServerSettings.getDatabaseHost() + ":" + ServerSettings.getDatabasePort());
+    mongo = new MongoClient(ServerSettings.getDatabaseHost(), ServerSettings.getDatabasePort());
+    database = mongo.getDatabase(ServerSettings.getDatabaseName());
   }
 
   @Override

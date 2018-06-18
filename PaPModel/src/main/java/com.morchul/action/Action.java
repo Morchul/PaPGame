@@ -7,4 +7,7 @@ public interface Action {
     boolean action(Anything source, Creatures target);
     boolean reverseAction(Anything source, Creatures target);
     String getActionText();
+    String getReverseActionText();
+    Anything getSource();
+    Creatures getTarget();
 }

@@ -16,6 +16,14 @@ public class ActionExecutor {
 
     public ActionExecutor() { }
 
+    public Anything getSource() {
+        return source;
+    }
+
+    public Creatures getTarget() {
+        return target;
+    }
+
     public boolean exec(String action, Anything source, Creatures target){
         this.source = source;
         this.target = target;
@@ -63,7 +71,7 @@ public class ActionExecutor {
         String action = valueN.substring(valueN.length()-1);
         Value v = source.getValueByName(valueName);
         if(v == null) throw new Exception("ERROR invalid valueName");
-        switch (action){
+        switch (action) {
             case "+":
                 v.changeValue(source, target, valueName, v.getValue() + value);
                 break;

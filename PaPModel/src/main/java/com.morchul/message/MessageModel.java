@@ -53,6 +53,7 @@ public class MessageModel {
         LOOT,
         KILL,
         FINISH_GAME,
-        ADD_CHARACTERISTIC_POINT
+        ADD_CHARACTERISTIC_POINT,
+        ACTION,
     }
 }
